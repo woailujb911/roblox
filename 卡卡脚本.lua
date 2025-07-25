@@ -6,7 +6,7 @@ local StarterGui = game:GetService("StarterGui")
 -- 加载 OrionLib
 local OrionLib
 local success, err = pcall(function()
-    OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/HXB20111/roblox-/refs/heads/main/%E9%BB%84%E8%84%9A%E6%9C%ACUI.lua"))()
+    OrionLib = loadstring(game:HttpGet("https://pastebin.com/raw/FUEx0f3G"))()
 end)
 if not success or not OrionLib then
     warn("Orion库加载失败: " .. (err or "未知错误"))
