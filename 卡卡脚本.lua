@@ -279,6 +279,7 @@ LP.CharacterAdded:Connect(function(myChar)
 end)      
     end
 })
+
 local InkGameTab = Window:MakeTab({
     Name = "墨水游戏",
     Icon = "rbxassetid://4483345998",
@@ -362,36 +363,9 @@ Tab:AddButton({
     end
 
 })
+		
 local Tab = Window:MakeTab({
-
-	Name = "力量传奇",
-
-	Icon = "rbxassetid://4483345998",
-
-	PremiumOnly = false
-
-})
-Tab:AddToggle({
-    Name = "开启自动锻炼（每秒100次）",
-    Default = false,
-    Callback = function(Value)
-        autoRep = Value
-        OrionLib:MakeNotification({
-            Name = "自动锻炼状态",
-            Content = Value and "已开启" or "已关闭",
-            Time = 2
-        })
-    end
-})
-local Window = OrionLib:MakeWindow({
-    Name = "健身房快速传送",
-    HidePremium = false,
-    SaveConfig = false,
-    ConfigFolder = "GymTP"
-})
-
-local Tab = Window:MakeTab({
-    Name = "传送",
+    Name = "力量传奇",
     Icon = "rbxassetid://7734068321",
     PremiumOnly = false
 })
@@ -458,6 +432,19 @@ Tab:AddButton({
     Name = "丛林健身房",
     Callback = function()
         teleportTo(-8685.62, 6.81, 2392.33)
+    end
+})
+
+Tab:AddToggle({
+    Name = "开启自动锻炼（每秒100次）",
+    Default = false,
+    Callback = function(Value)
+        autoRep = Value
+        OrionLib:MakeNotification({
+            Name = "自动锻炼状态",
+            Content = Value and "已开启" or "已关闭",
+            Time = 2
+        })
     end
 })
 
