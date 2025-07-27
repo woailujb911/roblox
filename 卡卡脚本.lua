@@ -1,21 +1,67 @@
-local OrionLib
-local success, err = pcall(function()
-    OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/HXB20111/roblox-/refs/heads/main/%E9%BB%84%E8%84%9A%E6%9C%ACUI.lua"))()
-end)
-if not success or not OrionLib then
-    warn("Orion库加载失败: ".. (err or "未知错误"))
-    return
-end
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/wsomoQaz/lua-/main/A%E4%BD%B3"))()
 
-local function makeRound(obj, radius)
-    if obj and obj:IsA("GuiObject") then
-        local corner = Instance.new("UICorner")
-        corner.CornerRadius = radius or UDim.new(0.5, 0)
-        corner.Parent = obj
-    end
-end
+WindUI:Popup({
+    Title = "欢迎使用卡卡脚本",
+    Icon = "rbxassetid://129260712070622",
+    IconThemed = true,
+    Content = "This is an Example UI for the " .. gradient("卡卡", Color3.fromHex("#00FF87"), Color3.fromHex("#60EFFF")) .. " Lib",
+    Buttons = {
+        {
+            Title = "退出",
+            Callback = function() end,
+            Variant = "Secondary",
+        },
+        {
+            Title = "使用",
+            Icon = "arrow-right",
+            Callback = function() Confirmed = true end,
+            Variant = "Primary",
+        }
+    }
+})
 
--- 创建主窗口
+repeat wait() until Confirmed
+
+local Window = WindUI:CreateWindow({
+    Title = "卡卡脚本",
+    Icon = "rbxassetid://129260712070622",
+    IconThemed = true,
+    Author = "卡卡脚本",
+    Folder = "CloudHub",
+    Size = UDim2.fromOffset(580, 460),
+    Transparent = true,
+    Theme = "Dark",
+    User = {
+        Enabled = true,
+        Callback = function() print("clicked") end,
+        Anonymous = true
+    },
+    SideBarWidth = 200,
+    ScrollBarEnabled = true,
+    KeySystem = {
+        Key = { "5418" },
+        Note = "Example Key System. \n\nThe Key is '请加入群",
+        URL = "link-to-linkvertise-or-discord-or-idk",
+        SaveKey = true,
+    },
+})
+
+Window:CreateTopbarButton("MyCustomButton1", "bird", function() print("clicked 1!") end, 990)
+Window:CreateTopbarButton("MyCustomButton3", "battery-plus", function() Window:ToggleFullscreen() end, 989)
+
+Window:EditOpenButton({
+    Title = "卡卡脚本",
+    Icon = "monitor",
+    CornerRadius = UDim.new(0,16),
+    StrokeThickness = 2,
+    Color = ColorSequence.new(Color3.fromHex("FF0F7B"), Color3.fromHex("F89B29")),
+    Draggable = true,
+})
+
+local Tabs = {}
+
+do
+
 local Window = OrionLib:MakeWindow({
     Name = "卡卡脚本",
     SaveConfig = true,
@@ -23,10 +69,9 @@ local Window = OrionLib:MakeWindow({
     Theme = "FlatBlue",
     Icon = "rbxassetid://118894209472715"
 })
-
 -- 欢迎通知
 pcall(function()
-    StarterGui:SetCore("SendNotification", {
+    game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "卡卡脚本",
         Text = "欢迎使用，功能已就绪",
         Duration = 4,
@@ -34,38 +79,10 @@ pcall(function()
     })
 end)
 
--- 作者信息标签页
-local AuthorTab = Window:MakeTab({Name = "作者信息", Icon = "rbxassetid://4483345998"})
-AuthorTab:AddParagraph("作者", "卡卡大帝")
-AuthorTab:AddParagraph("作者QQ", "3804046925")
-AuthorTab:AddParagraph("QQ群", "1054175537")
-
--- 假设这里使用OrionLib正确的按钮添加方式
-AuthorTab:AddButton({
-    Name = "复制作者QQ",
-    Callback = function()
-        if setclipboard then
-            setclipboard("3804046925")
-            OrionLib:MakeNotification({Name = "成功", Content = "QQ已复制", Time = 2})
-        end
-    end,
-    Color = Color3.fromRGB(70, 130, 255)
-})
-
-AuthorTab:AddButton({
-    Name = "复制QQ群",
-    Callback = function()
-        if setclipboard then
-            setclipboard("1054175537")
-            OrionLib:MakeNotification({Name = "成功", Content = "QQ群已复制", Time = 2})
-        end
-    end,
-    Color = Color3.fromRGB(100, 200, 100)
-})
-
+-- 玩家功能 Tab（原 Tab）
 local Tab = Window:MakeTab({
     Name = "玩家功能",
-    Icon = "rbxassetid://3804046925",
+    Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
@@ -135,11 +152,7 @@ Tab:AddToggle({
     Name = "夜视",
     Default = false,
     Callback = function(Value)
-        if Value then
-            game.Lighting.Ambient = Color3.new(1, 1, 1)
-        else
-            game.Lighting.Ambient = Color3.new(0, 0, 0)
-        end
+        game.Lighting.Ambient = Value and Color3.new(1, 1, 1) or Color3.new(0, 0, 0)
     end
 })
 
@@ -188,143 +201,146 @@ Tab:AddToggle({
     end
 })
 
-Tab:AddButton({	
-Name = "修改玩家碰撞箱",	
-Callback = function()
-loadstring(game:HttpGet('https://pastebin.com/raw/JYFXjEVh'))()
+Tab:AddButton({
+    Name = "皮自瞄",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/xiaopi77/xiaopi77/main/3683e49998644fb7.txt_2024-08-09_094310.OTed.lua"))()
     end
 })
 
 Tab:AddButton({
-	Name = "皮自瞄",
-	Callback = function()
-     loadstring(game:HttpGet("https://raw.githubusercontent.com/xiaopi77/xiaopi77/main/3683e49998644fb7.txt_2024-08-09_094310.OTed.lua"))()
-  	end    
+    Name = "透视",
+    Callback = function()
+        local Players = game:GetService("Players")
+        local RunService = game:GetService("RunService")
+        local LP = Players.LocalPlayer
+        local Teams = game:GetService("Teams")
+
+        local function IsGunGame()
+            return #Teams:GetTeams() >= 2
+        end
+
+        local function IsEnemy(plr)
+            if not IsGunGame() then return false end
+            if not plr.Team or not LP.Team then return false end
+            return plr.Team ~= LP.Team
+        end
+
+        local function GetHighlightColor(plr)
+            if not IsGunGame() then
+                return Color3.fromRGB(255, 255, 255)
+            elseif IsEnemy(plr) then
+                return Color3.fromRGB(180, 0, 0)
+            else
+                return Color3.fromRGB(0, 150, 255)
+            end
+        end
+
+        local function CreateHighlight(target, color)
+            local h = Instance.new("Highlight")
+            h.Name = "StyledHighlight"
+            h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+            h.FillColor = color
+            h.FillTransparency = 0.75
+            h.OutlineColor = color
+            h.OutlineTransparency = 0.3
+            h.Adornee = target
+            h.Parent = target
+        end
+
+        local function SetupVisuals(plr)
+            if not plr.Character or plr == LP then return end
+            local char = plr.Character
+            if char:FindFirstChild("StyledHighlight") then return end
+
+            local color = GetHighlightColor(plr)
+            CreateHighlight(char, color)
+        end
+
+        for _, plr in ipairs(Players:GetPlayers()) do
+            if plr ~= LP then
+                SetupVisuals(plr)
+            end
+        end
+
+        Players.PlayerAdded:Connect(function(plr)
+            if plr == LP then return end
+            plr.CharacterAdded:Connect(function()
+                task.wait(0.2)
+                SetupVisuals(plr)
+            end)
+        end)
+
+        LP.CharacterAdded:Connect(function(myChar)
+            local h = myChar:FindFirstChild("StyledHighlight")
+            if h then h:Destroy() end
+        end)
+    end
 })
 
 Tab:AddButton({
-	Name = "最强透视",
-	Callback = function()
-       loadstring(game:HttpGet("https://pastebin.com/raw/uw2P2fbY"))()
-  	end    
-})
-
-Tab:AddButton({
-	Name = "透视",
-	Callback = function()
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LP = Players.LocalPlayer
-local Teams = game:GetService("Teams")
-
-local function IsGunGame()
-    return #Teams:GetTeams() >= 2
-end
-
-local function IsEnemy(plr)
-    if not IsGunGame() then return false end
-    if not plr.Team or not LP.Team then return false end
-    return plr.Team ~= LP.Team
-end
-
-local function GetHighlightColor(plr)
-    if not IsGunGame() then
-        return Color3.fromRGB(255, 255, 255)
-    elseif IsEnemy(plr) then
-        return Color3.fromRGB(180, 0, 0)
-    else
-        return Color3.fromRGB(0, 150, 255)
-    end
-end
-
-local function CreateHighlight(target, color)
-    local h = Instance.new("Highlight")
-    h.Name = "StyledHighlight"
-    h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-    h.FillColor = color
-    h.FillTransparency = 0.75
-    h.OutlineColor = color
-    h.OutlineTransparency = 0.3
-    h.Adornee = target
-    h.Parent = target
-    return h
-end
-
-local function SetupVisuals(plr)
-    if not plr.Character or plr == LP then return end
-    local char = plr.Character
-    if char:FindFirstChild("StyledHighlight") then return end
-
-    local color = GetHighlightColor(plr)
-    CreateHighlight(char, color)
-end
-
-for _, plr in ipairs(Players:GetPlayers()) do
-    if plr ~= LP then
-        SetupVisuals(plr)
-    end
-end
-
-Players.PlayerAdded:Connect(function(plr)
-    if plr == LP then return end
-    plr.CharacterAdded:Connect(function(char)
-        task.wait(0.2)
-        SetupVisuals(plr)
-    end)
-end)
-
-LP.CharacterAdded:Connect(function(myChar)
-    local h = myChar:FindFirstChild("StyledHighlight")
-    if h then h:Destroy() end
-end)      
+    Name = "清除高亮",
+    Callback = function()
+        for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+            if plr.Character and plr.Character:FindFirstChild("StyledHighlight") then
+                plr.Character.StyledHighlight:Destroy()
+            end
+        end
     end
 })
 
+-- 作者信息标签页
+local AuthorTab = Window:MakeTab({
+    Name = "作者信息",
+    Icon = "rbxassetid://4483345998"
+})
+
+AuthorTab:AddParagraph("作者", "卡卡大帝")
+AuthorTab:AddParagraph("作者QQ", "3804046925")
+AuthorTab:AddParagraph("QQ群", "1054175537")
+
+AuthorTab:AddButton({
+    Name = "复制作者QQ",
+    Callback = function()
+        if setclipboard then
+            setclipboard("3804046925")
+            OrionLib:MakeNotification({Name = "成功", Content = "QQ已复制", Time = 2})
+        end
+    end,
+    Color = Color3.fromRGB(70, 130, 255)
+})
+
+AuthorTab:AddButton({
+    Name = "复制QQ群",
+    Callback = function()
+        if setclipboard then
+            setclipboard("1054175537")
+            OrionLib:MakeNotification({Name = "成功", Content = "QQ群已复制", Time = 2})
+        end
+    end,
+    Color = Color3.fromRGB(100, 200, 100)
+})
+
+-- 墨水游戏 Tab
 local InkGameTab = Window:MakeTab({
     Name = "墨水游戏",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-InkGameTab:AddToggle({
-    Name = "飞行",
-    Default = false,
-    Callback = function(Value)
-        if Value then
-            local success, err = pcall(function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/gqv7PXAa"))()
-            end)
-            if not success then
-                warn("墨水游戏飞行功能脚本加载失败: ".. (err or "未知错误"))
-            end
-        end
-    end
-})
-
-InkGameTab:AddToggle({
-    Name = "旋转",
-    Default = false,
-    Callback = function(Value)
-        if Value then
-            local success, err = pcall(function()
-                loadstring(game:HttpGet("https://xn--9p9haaaaaa.tk/scripts/CarpetFling.lua"))()
-            end)
-            if not success then
-                warn("墨水游戏旋转功能脚本加载失败: ".. (err or "未知错误"))
-            end
-        end
-    end
-})
-
 InkGameTab:AddButton({
     Name = "脚本一",
     Callback = function()
         local success, err = pcall(function()
-           loadstring(game:HttpGet("https://raw.githubusercontent.com/XOTRXONY/INKGAME/main/INKGAMEE.lua", true))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/XOTRXONY/INKGAME/main/INKGAMEE.lua", true))()
         end)
-        
+        if not success then
+            warn("墨水游戏脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
 })
 
+-- 一路向西 Tab
 local WestboundTab = Window:MakeTab({
     Name = "一路向西",
     Icon = "rbxassetid://4483345998",
@@ -343,150 +359,19 @@ WestboundTab:AddButton({
     end
 })
 
-local Tab = Window:MakeTab({
-
-	Name = "死铁轨",
-
-	Icon = "rbxassetid://4483345998",
-
-	PremiumOnly = false
-
-})
-
-Tab:AddButton({
-
-	Name = "刷券",
-
-	Callback = function()
-	   loadstring(game:HttpGet("https://raw.githubusercontent.com/ArdyBotzz/NatHub/refs/heads/master/NatHub.lua"))();
-
-    end
-
-})
-
--- 创建力量传奇选项卡
-local powerLegendTab = Window:MakeTab({
-    Name = "力量传奇",
+-- 死铁轨 Tab
+local DeadRailTab = Window:MakeTab({
+    Name = "死铁轨",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
--- 创建传送选项卡
-local teleportTab = Window:MakeTab({
-    Name = "传送",
-    Icon = "rbxassetid://7734068321",
-    PremiumOnly = false
+DeadRailTab:AddButton({
+    Name = "脚本一",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/m00ndiety/OP-AUTO-BONDS-V3/refs/heads/main/Keyless-BONDS-v3"))()
+    end
 })
 
--- 自动锻炼相关
-local autoRep = false
-local function handleAutoRepToggle(Value)
-    autoRep = Value
-    OrionLib:MakeNotification({
-        Name = "自动锻炼状态",
-        Content = Value and "已开启" or "已关闭",
-        Time = 2
-    })
-end
-
-powerLegendTab:AddToggle({
-    Name = "开启自动锻炼（每秒100次）",
-    Default = false,
-    Callback = handleAutoRepToggle
-})
-
--- 传送函数
-local function teleportTo(x, y, z)
-    local player = game:GetService("Players").LocalPlayer
-    local char = player.Character or player.CharacterAdded:Wait()
-    local hrp = char:WaitForChild("HumanoidRootPart")
-    hrp.CFrame = CFrame.new(x, y, z)
-end
-
--- 添加传送按钮
-local teleportLocations = {
-    {Name = "主岛", X = 1.83, Y = 7.38, Z = 158.22},
-    {Name = "沙滩", X = -16.45, Y = 7.38, Z = -474.85},
-    {Name = "冰霜健身房", X = -2623.02, Y = 7.38, Z = -409.07},
-    {Name = "神话健身房", X = 2250.78, Y = 7.38, Z = 1073.23},
-    {Name = "永恒健身房", X = -6758.96, Y = 7.38, Z = -1284.92},
-    {Name = "传奇健身房", X = 4603.28, Y = 991.56, Z = -3897.87},
-    {Name = "力量之王健身房", X = -8662.02, Y = 17.23, Z = -5748.78},
-    {Name = "丛林健身房", X = -8685.62, Y = 6.81, Z = 2392.33}
-}
-
-for _, location in ipairs(teleportLocations) do
-    teleportTab:AddButton({
-        Name = location.Name,
-        Callback = function()
-            teleportTo(location.X, location.Y, location.Z)
-        end
-    })
-end
-
--- 自动触发逻辑
-local function handleAutoRep()
-    local Players = game:GetService("Players")
-    local RunService = game:GetService("RunService")
-    local LocalPlayer = Players.LocalPlayer
-    local muscleEvent = LocalPlayer:FindFirstChild("muscleEvent")
-    if not muscleEvent then
-        warn("muscleEvent not found. Auto - rep functionality may be affected.")
-        return
-    end
-    local args = {"rep"}
-    local accumulated = 0
-    local interval = 0.01  -- 0.01秒一次
-
-    RunService.RenderStepped:Connect(function(dt)
-        if autoRep then
-            accumulated += dt
-            while accumulated >= interval do
-                accumulated -= interval
-                muscleEvent:FireServer(unpack(args))
-            end
-        end
-    end)
-end
-
-handleAutoRep()
-
-
--- 自动触发逻辑
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-local muscleEvent = LocalPlayer:WaitForChild("muscleEvent")
-local args = {"rep"}
-
-local accumulated = 0
-local interval = 0.01  -- 0.01秒一次
-
-RunService.RenderStepped:Connect(function(dt)
-    if autoRep then
-        accumulated += dt
-        while accumulated >= interval do
-            accumulated -= interval
-            muscleEvent:FireServer(unpack(args))
-        end
-    end
-end)
-	-- 初始化界面
+-- 初始化界面
 OrionLib:Init()
-
--- 样式优化
-task.delay(0.3, function()
-    local mainFrame = Window.Instance:FindFirstChild("MainFrame", true)
-    if mainFrame then
-        makeRound(mainFrame, UDim.new(0.08, 0))
-    end
-end)
-
--- 清理函数
-local function cleanUp()
-    if Window and Window.Instance then
-        Window.Instance:Destroy()
-    end
-    Lighting.Ambient = Color3.new(0, 0, 0)
-    Lighting.Brightness = 1
-	end
