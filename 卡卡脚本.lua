@@ -1,6 +1,6 @@
 local OrionLib
 local success, err = pcall(function()
-    OrionLib = loadstring(game:HttpGet("https://pastebin.com/raw/FUEx0f3G"))()
+    OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/HXB20111/roblox-/refs/heads/main/%E9%BB%84%E8%84%9A%E6%9C%ACUI.lua"))()
 end)
 if not success or not OrionLib then
     warn("Orion库加载失败: ".. (err or "未知错误"))
@@ -209,6 +209,77 @@ Tab:AddButton({
   	end    
 })
 
+Tab:AddButton({
+	Name = "透视",
+	Callback = function()
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LP = Players.LocalPlayer
+local Teams = game:GetService("Teams")
+
+local function IsGunGame()
+    return #Teams:GetTeams() >= 2
+end
+
+local function IsEnemy(plr)
+    if not IsGunGame() then return false end
+    if not plr.Team or not LP.Team then return false end
+    return plr.Team ~= LP.Team
+end
+
+local function GetHighlightColor(plr)
+    if not IsGunGame() then
+        return Color3.fromRGB(255, 255, 255)
+    elseif IsEnemy(plr) then
+        return Color3.fromRGB(180, 0, 0)
+    else
+        return Color3.fromRGB(0, 150, 255)
+    end
+end
+
+local function CreateHighlight(target, color)
+    local h = Instance.new("Highlight")
+    h.Name = "StyledHighlight"
+    h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    h.FillColor = color
+    h.FillTransparency = 0.75
+    h.OutlineColor = color
+    h.OutlineTransparency = 0.3
+    h.Adornee = target
+    h.Parent = target
+    return h
+end
+
+local function SetupVisuals(plr)
+    if not plr.Character or plr == LP then return end
+    local char = plr.Character
+    if char:FindFirstChild("StyledHighlight") then return end
+
+    local color = GetHighlightColor(plr)
+    CreateHighlight(char, color)
+end
+
+for _, plr in ipairs(Players:GetPlayers()) do
+    if plr ~= LP then
+        SetupVisuals(plr)
+    end
+end
+
+Players.PlayerAdded:Connect(function(plr)
+    if plr == LP then return end
+    plr.CharacterAdded:Connect(function(char)
+        task.wait(0.2)
+        SetupVisuals(plr)
+    end)
+end)
+
+LP.CharacterAdded:Connect(function(myChar)
+    local h = myChar:FindFirstChild("StyledHighlight")
+    if h then h:Destroy() end
+end)      
+    end
+})
+
 local InkGameTab = Window:MakeTab({
     Name = "墨水游戏",
     Icon = "rbxassetid://4483345998",
@@ -292,11 +363,36 @@ Tab:AddButton({
     end
 
 })
-		
-local Tab = Window:MakeTab({
+
+-- 创建力量传奇选项卡
+local powerLegendTab = Window:MakeTab({
     Name = "力量传奇",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- 创建传送选项卡
+local teleportTab = Window:MakeTab({
+    Name = "传送",
     Icon = "rbxassetid://7734068321",
     PremiumOnly = false
+})
+
+-- 自动锻炼相关
+local autoRep = false
+local function handleAutoRepToggle(Value)
+    autoRep = Value
+    OrionLib:MakeNotification({
+        Name = "自动锻炼状态",
+        Content = Value and "已开启" or "已关闭",
+        Time = 2
+    })
+end
+
+powerLegendTab:AddToggle({
+    Name = "开启自动锻炼（每秒100次）",
+    Default = false,
+    Callback = handleAutoRepToggle
 })
 
 -- 传送函数
@@ -307,75 +403,54 @@ local function teleportTo(x, y, z)
     hrp.CFrame = CFrame.new(x, y, z)
 end
 
--- 添加按钮
-Tab:AddButton({
-    Name = "主岛",
-    Callback = function()
-        teleportTo(1.83, 7.38, 158.22)
-    end
-})
+-- 添加传送按钮
+local teleportLocations = {
+    {Name = "主岛", X = 1.83, Y = 7.38, Z = 158.22},
+    {Name = "沙滩", X = -16.45, Y = 7.38, Z = -474.85},
+    {Name = "冰霜健身房", X = -2623.02, Y = 7.38, Z = -409.07},
+    {Name = "神话健身房", X = 2250.78, Y = 7.38, Z = 1073.23},
+    {Name = "永恒健身房", X = -6758.96, Y = 7.38, Z = -1284.92},
+    {Name = "传奇健身房", X = 4603.28, Y = 991.56, Z = -3897.87},
+    {Name = "力量之王健身房", X = -8662.02, Y = 17.23, Z = -5748.78},
+    {Name = "丛林健身房", X = -8685.62, Y = 6.81, Z = 2392.33}
+}
 
-Tab:AddButton({
-    Name = "沙滩",
-    Callback = function()
-        teleportTo(-16.45, 7.38, -474.85)
-    end
-})
+for _, location in ipairs(teleportLocations) do
+    teleportTab:AddButton({
+        Name = location.Name,
+        Callback = function()
+            teleportTo(location.X, location.Y, location.Z)
+        end
+    })
+end
 
-Tab:AddButton({
-    Name = "冰霜健身房",
-    Callback = function()
-        teleportTo(-2623.02, 7.38, -409.07)
+-- 自动触发逻辑
+local function handleAutoRep()
+    local Players = game:GetService("Players")
+    local RunService = game:GetService("RunService")
+    local LocalPlayer = Players.LocalPlayer
+    local muscleEvent = LocalPlayer:FindFirstChild("muscleEvent")
+    if not muscleEvent then
+        warn("muscleEvent not found. Auto - rep functionality may be affected.")
+        return
     end
-})
+    local args = {"rep"}
+    local accumulated = 0
+    local interval = 0.01  -- 0.01秒一次
 
-Tab:AddButton({
-    Name = "神话健身房",
-    Callback = function()
-        teleportTo(2250.78, 7.38, 1073.23)
-    end
-})
+    RunService.RenderStepped:Connect(function(dt)
+        if autoRep then
+            accumulated += dt
+            while accumulated >= interval do
+                accumulated -= interval
+                muscleEvent:FireServer(unpack(args))
+            end
+        end
+    end)
+end
 
-Tab:AddButton({
-    Name = "永恒健身房",
-    Callback = function()
-        teleportTo(-6758.96, 7.38, -1284.92)
-    end
-})
+handleAutoRep()
 
-Tab:AddButton({
-    Name = "传奇健身房",
-    Callback = function()
-        teleportTo(4603.28, 991.56, -3897.87)
-    end
-})
-
-Tab:AddButton({
-    Name = "力量之王健身房",
-    Callback = function()
-        teleportTo(-8662.02, 17.23, -5748.78)
-    end
-})
-
-Tab:AddButton({
-    Name = "丛林健身房",
-    Callback = function()
-        teleportTo(-8685.62, 6.81, 2392.33)
-    end
-})
-
-Tab:AddToggle({
-    Name = "开启自动锻炼（每秒100次）",
-    Default = false,
-    Callback = function(Value)
-        autoRep = Value
-        OrionLib:MakeNotification({
-            Name = "自动锻炼状态",
-            Content = Value and "已开启" or "已关闭",
-            Time = 2
-        })
-    end
-})
 
 -- 自动触发逻辑
 local Players = game:GetService("Players")
@@ -414,4 +489,4 @@ local function cleanUp()
     end
     Lighting.Ambient = Color3.new(0, 0, 0)
     Lighting.Brightness = 1
-    end
+	end
