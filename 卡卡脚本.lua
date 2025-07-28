@@ -1,67 +1,4 @@
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/wsomoQaz/lua-/main/A%E4%BD%B3"))()
-
-WindUI:Popup({
-    Title = "欢迎使用卡卡脚本",
-    Icon = "rbxassetid://129260712070622",
-    IconThemed = true,
-    Content = "This is an Example UI for the " .. gradient("卡卡", Color3.fromHex("#00FF87"), Color3.fromHex("#60EFFF")) .. " Lib",
-    Buttons = {
-        {
-            Title = "退出",
-            Callback = function() end,
-            Variant = "Secondary",
-        },
-        {
-            Title = "使用",
-            Icon = "arrow-right",
-            Callback = function() Confirmed = true end,
-            Variant = "Primary",
-        }
-    }
-})
-
-repeat wait() until Confirmed
-
-local Window = WindUI:CreateWindow({
-    Title = "卡卡脚本",
-    Icon = "rbxassetid://129260712070622",
-    IconThemed = true,
-    Author = "卡卡脚本",
-    Folder = "CloudHub",
-    Size = UDim2.fromOffset(580, 460),
-    Transparent = true,
-    Theme = "Dark",
-    User = {
-        Enabled = true,
-        Callback = function() print("clicked") end,
-        Anonymous = true
-    },
-    SideBarWidth = 200,
-    ScrollBarEnabled = true,
-    KeySystem = {
-        Key = { "5418" },
-        Note = "Example Key System. \n\nThe Key is '请加入群",
-        URL = "link-to-linkvertise-or-discord-or-idk",
-        SaveKey = true,
-    },
-})
-
-Window:CreateTopbarButton("MyCustomButton1", "bird", function() print("clicked 1!") end, 990)
-Window:CreateTopbarButton("MyCustomButton3", "battery-plus", function() Window:ToggleFullscreen() end, 989)
-
-Window:EditOpenButton({
-    Title = "卡卡脚本",
-    Icon = "monitor",
-    CornerRadius = UDim.new(0,16),
-    StrokeThickness = 2,
-    Color = ColorSequence.new(Color3.fromHex("FF0F7B"), Color3.fromHex("F89B29")),
-    Draggable = true,
-})
-
-local Tabs = {}
-
-do
-
 local Window = OrionLib:MakeWindow({
     Name = "卡卡脚本",
     SaveConfig = true,
@@ -69,6 +6,7 @@ local Window = OrionLib:MakeWindow({
     Theme = "FlatBlue",
     Icon = "rbxassetid://118894209472715"
 })
+
 -- 欢迎通知
 pcall(function()
     game:GetService("StarterGui"):SetCore("SendNotification", {
