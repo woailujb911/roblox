@@ -153,89 +153,83 @@ Tab:AddToggle({
     end
 })
 
-Tab:AddToggle({
+Tab:AddButton({
     Name = "透视",
-    Default = false,
-    Callback = function(toggle)
-        if toggle.IsOn then
-            local Players = game:GetService("Players")
-            local LP = Players.LocalPlayer
-            local Teams = game:GetService("Teams")
+    Callback = function()
+        local Players = game:GetService("Players")
+        local RunService = game:GetService("RunService")
+        local LP = Players.LocalPlayer
+        local Teams = game:GetService("Teams")
 
-            local function IsGunGame()
-                return #Teams:GetTeams() >= 2
+        local function IsGunGame()
+            return #Teams:GetTeams() >= 2
+        end
+
+        local function IsEnemy(plr)
+            if not IsGunGame() then return false end
+            if not plr.Team or not LP.Team then return false end
+            return plr.Team ~= LP.Team
+        end
+
+        local function GetHighlightColor(plr)
+            if not IsGunGame() then
+                return Color3.fromRGB(255, 255, 255)
+            elseif IsEnemy(plr) then
+                return Color3.fromRGB(180, 0, 0)
+            else
+                return Color3.fromRGB(0, 150, 255)
             end
+        end
 
-            local function IsEnemy(plr)
-                if not IsGunGame() then return false end
-                if not plr.Team or not LP.Team then return false end
-                return plr.Team ~= LP.Team
+        local function CreateHighlight(target, color)
+            local h = Instance.new("Highlight")
+            h.Name = "StyledHighlight"
+            h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+            h.FillColor = color
+            h.FillTransparency = 0.75
+            h.OutlineColor = color
+            h.OutlineTransparency = 0.3
+            h.Adornee = target
+            h.Parent = target
+        end
+
+        local function SetupVisuals(plr)
+            if not plr.Character or plr == LP then return end
+            local char = plr.Character
+            if char:FindFirstChild("StyledHighlight") then return end
+
+            local color = GetHighlightColor(plr)
+            CreateHighlight(char, color)
+        end
+
+        for _, plr in ipairs(Players:GetPlayers()) do
+            if plr ~= LP then
+                SetupVisuals(plr)
             end
+        end
 
-            local function GetHighlightColor(plr)
-                if not IsGunGame() then
-                    return Color3.fromRGB(255, 255, 255)
-                elseif IsEnemy(plr) then
-                    return Color3.fromRGB(180, 0, 0)
-                else
-                    return Color3.fromRGB(0, 150, 255)
-                end
-            end
-
-            local function CreateHighlight(target, color)
-                local h = Instance.new("Highlight")
-                h.Name = "StyledHighlight"
-                h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-                h.FillColor = color
-                h.FillTransparency = 0.75
-                h.OutlineColor = color
-                h.OutlineTransparency = 0.3
-                h.Adornee = target
-                h.Parent = target
-                table.insert(highlights, h)
-                return h
-            end
-
-            local function SetupVisuals(plr)
-                if not plr.Character or plr == LP then return end
-                local char = plr.Character
-                if char:FindFirstChild("StyledHighlight") then return end
-
-                local color = GetHighlightColor(plr)
-                CreateHighlight(char, color)
-            end
-
-            for _, plr in ipairs(Players:GetPlayers()) do
-                if plr ~= LP then
-                    SetupVisuals(plr)
-                end
-            end
-
-            Players.PlayerAdded:Connect(function(plr)
-                if plr == LP then return end
-                plr.CharacterAdded:Connect(function()
-                    task.wait(0.2)
-                    SetupVisuals(plr)
-                end)
+        Players.PlayerAdded:Connect(function(plr)
+            if plr == LP then return end
+            plr.CharacterAdded:Connect(function()
+                task.wait(0.2)
+                SetupVisuals(plr)
             end)
+        end)
 
-            LP.CharacterAdded:Connect(function(myChar)
-                local h = myChar:FindFirstChild("StyledHighlight")
-                if h then h:Destroy() end
-            end)
+        LP.CharacterAdded:Connect(function(myChar)
+            local h = myChar:FindFirstChild("StyledHighlight")
+            if h then h:Destroy() end
+        end)
+    end
+})
 
-            isESPEnabled = true
-        else
-            for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
-                if plr.Character then
-                    local highlight = plr.Character:FindFirstChild("StyledHighlight")
-                    if highlight then
-                        highlight:Destroy()
-                    end
-                end
+Tab:AddButton({
+    Name = "关闭透视",
+    Callback = function()
+        for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+            if plr.Character and plr.Character:FindFirstChild("StyledHighlight") then
+                plr.Character.StyledHighlight:Destroy()
             end
-            table.clear(highlights)  
-            isESPEnabled = false
         end
     end
 })
