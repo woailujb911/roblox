@@ -234,7 +234,7 @@ Tab:AddButton({
     end
 })
 
-Tab:AddToggle({
+Tab:AddButton({
     Name = "飞行",
     Default = false,
     Callback = function(Value)
