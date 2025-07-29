@@ -84,21 +84,6 @@ Tab:AddToggle({
 })
 
 Tab:AddToggle({
-    Name = "旋转",
-    Default = false,
-    Callback = function(Value)
-        if Value then
-            local success, err = pcall(function()
-                loadstring(game:HttpGet("https://xn--9p9haaaaaa.tk/scripts/CarpetFling.lua"))()
-            end)
-            if not success then
-                warn("旋转功能脚本加载失败: ".. (err or "未知错误"))
-            end
-        end
-    end
-})
-
-Tab:AddToggle({
     Name = "踏空",
     Default = false,
     Callback = function(Value)
@@ -118,6 +103,73 @@ Tab:AddButton({
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/chillz-workshop/main/Arceus%20Aimbot.lua"))()
     end
+})
+
+Tab:AddButton({
+    Name = "旋转速度",
+    Placeholder = "输入旋转速度值",
+    Callback = function(Value)
+        local speed = tonumber(Value)
+        if not speed then
+            return OrionLib:MakeNotification({
+                Name = "错误",
+                Content = "请输入有效的数字",
+                Time = 2
+            })
+        end
+        
+        local plr = game:GetService("Players").LocalPlayer
+        repeat task.wait() until plr.Character
+        local humRoot = plr.Character:WaitForChild("HumanoidRootPart")
+        local humanoid = plr.Character:WaitForChild("Humanoid")
+        humanoid.AutoRotate = false
+
+        if not spinVelocity then
+            spinVelocity = Instance.new("AngularVelocity")
+            spinVelocity.Attachment0 = humRoot:WaitForChild("RootAttachment")
+            spinVelocity.MaxTorque = math.huge
+            spinVelocity.AngularVelocity = Vector3.new(0, speed, 0)
+            spinVelocity.Parent = humRoot
+            spinVelocity.Name = "Spinbot"
+        else
+            spinVelocity.AngularVelocity = Vector3.new(0, speed, 0)
+        end
+        
+        OrionLib:MakeNotification({
+            Name = "已设置",
+            Content = "旋转速度已调整为: " .. speed,
+            Time = 1.5
+        })
+    end
+})
+
+Tab:AddButton({
+    Name = "停止旋转",
+    Callback = function()
+        local plr = game:GetService("Players").LocalPlayer
+        repeat task.wait() until plr.Character
+        local humRoot = plr.Character:WaitForChild("HumanoidRootPart")
+        local humanoid = plr.Character:WaitForChild("Humanoid")
+
+        local spinbot = humRoot:FindFirstChild("Spinbot")
+        if spinbot then
+            spinbot:Destroy()
+            spinVelocity = nil
+            humanoid.AutoRotate = true
+            OrionLib:MakeNotification({
+                Name = "已停止",
+                Content = "旋转已停止",
+                Time = 1.5
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "提示",
+                Content = "未处于旋转状态",
+                Time = 1.5
+            })
+        end
+    end,
+    Color = Color3.fromRGB(255, 99, 71)
 })
 
 Tab:AddButton({
