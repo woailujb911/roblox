@@ -127,6 +127,41 @@ Tab:AddButton({
     Color = Color3.fromRGB(255, 99, 71)
 })
 
+Tab:AddToggle({
+    Name = "穿墙",
+    Default = false,
+    Callback = function(enabled)
+        isClipping = enabled
+        local char = game.Players.LocalPlayer.Character
+        
+        if enabled then
+            stepConnection = game:GetService("RunService").Stepped:Connect(function()
+                if isClipping and char then
+                    for _, part in pairs(char:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = false
+                        end
+                    end
+                else
+                    stepConnection:Disconnect()
+                end
+            end)
+            OrionLib:MakeNotification({Name = "状态", Content = "穿墙已开启", Time = 2})
+        else
+            if char then
+                for _, part in pairs(char:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = true
+                    end
+                end
+            end
+            OrionLib:MakeNotification({Name = "状态", Content = "穿墙已关闭", Time = 2})
+            if stepConnection then stepConnection:Disconnect() end
+        end
+    end,
+    Color = Color3.fromRGB(100, 149, 237)
+})
+
 local isESPEnabled = false
 local highlights = {}
 
