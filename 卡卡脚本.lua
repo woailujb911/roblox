@@ -252,7 +252,7 @@ Tab:AddButton({
 Tab:AddButton({
     Name = "自瞄",
     Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/chillz-workshop/main/Arceus%20Aimbot.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/woailujb911/roblox/refs/heads/main/zimiao"))()
     end
 })
 
