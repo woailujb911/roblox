@@ -285,9 +285,16 @@ Tab:AddToggle({
 })
 
 Tab:AddButton({
-    Name = "自瞄",
+    Name = "自瞄1",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/woailujb911/roblox/refs/heads/main/zimiao"))()
+    end
+})
+
+Tab:AddButton({
+    Name = "自瞄2",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/wsomoQaz/lua-/main/aimbot"))()
     end
 })
 
