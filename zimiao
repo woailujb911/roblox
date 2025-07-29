@@ -1,6 +1,16 @@
-local Script_Title = "Arceus X <font color=\"rgb(255, 0, 0)\">|</font> 自瞄"
+--[[
+		AIMBOT SCRIPT
 
--- 界面元素
+		Remade and optimized by Riky47#3355 for Arceus X
+		# spdmteam.com
+		
+		Fixed by .chill.z.
+                # Chillz
+]]
+
+local Script_Title = "卡卡翻译 <font color=\"rgb(255, 0, 0)\">|</font> 自瞄"
+
+-- Instances:
 local Arceus = Instance.new("ScreenGui")
 local Main = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
@@ -40,14 +50,15 @@ local UIGradient_4 = Instance.new("UIGradient")
 local Img_2 = Instance.new("TextLabel")
 local UIAspectRatioConstraint_5 = Instance.new("UIAspectRatioConstraint")
 
--- 界面属性设置
+--Properties:
+
 Arceus.Name = "Arceus"
 Arceus.Enabled = true
 Arceus.ResetOnSpawn = true
 Arceus.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Arceus.DisplayOrder = 999999999
 
-Main.Name = "主界面"
+Main.Name = "Main"
 Main.Parent = Arceus
 Main.Active = true
 Main.Draggable = true
@@ -60,7 +71,7 @@ Main.Size = UDim2.new(0.3, 0, 0.3, 0)
 UICorner.CornerRadius = UDim.new(0.1, 0)
 UICorner.Parent = Main
 
-Intro.Name = "启动画面"
+Intro.Name = "Intro"
 Intro.Parent = Main
 Intro.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 Intro.ClipsDescendants = true
@@ -84,7 +95,7 @@ Logo.Active = false
 
 UIAspectRatioConstraint.Parent = Logo
 
-Title.Name = "标题"
+Title.Name = "Title"
 Title.Parent = Main
 Title.AnchorPoint = Vector2.new(1, 0)
 Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -103,7 +114,7 @@ Title.TextWrapped = true
 Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.TextYAlignment = Enum.TextYAlignment.Center
 
-Menu.Name = "菜单"
+Menu.Name = "Menu"
 Menu.Parent = Main
 Menu.Active = true
 Menu.AnchorPoint = Vector2.new(0.5, 1)
@@ -118,16 +129,19 @@ Menu.ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255)
 Menu.ScrollBarThickness = Menu.AbsoluteSize.X/25
 
 UIListLayout.Parent = Menu
+--UIListLayout.Padding = UDim.new(0.025, 0)
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
-Toggle.Name = "开关"
+Toggle.Name = "Toggle"
 Toggle.Visible = false
+--Toggle.Parent = Arceus
 Toggle.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
 Toggle.Size = UDim2.new(0.95, 0, 0, 50)
 
 UICorner_3.CornerRadius = UDim.new(0.25, 0)
 UICorner_3.Parent = Toggle
 
-Enabled.Name = "状态"
+Enabled.Name = "Enabled"
 Enabled.Parent = Toggle
 Enabled.AnchorPoint = Vector2.new(1, 0.5)
 Enabled.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
@@ -139,7 +153,7 @@ UIAspectRatioConstraint_2.Parent = Enabled
 UICorner_4.CornerRadius = UDim.new(0.3, 0)
 UICorner_4.Parent = Enabled
 
-Check.Name = "勾选"
+Check.Name = "Check"
 Check.Parent = Enabled
 Check.AnchorPoint = Vector2.new(0.5, 0.5)
 Check.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
@@ -151,7 +165,7 @@ UIAspectRatioConstraint_3.Parent = Check
 UICorner_5.CornerRadius = UDim.new(0.3, 0)
 UICorner_5.Parent = Check
 
-Name.Name = "功能名称"
+Name.Name = "Name"
 Name.Parent = Toggle
 Name.AnchorPoint = Vector2.new(0, 0.5)
 Name.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -160,7 +174,7 @@ Name.BorderSizePixel = 0
 Name.Position = UDim2.new(0.05, 0, 0.5, 0)
 Name.Size = UDim2.new(0.75, 0, 0.8, 0)
 Name.Font = Enum.Font.TitilliumWeb
-Name.Text = "脚本"
+Name.Text = "Script"
 Name.TextColor3 = Color3.fromRGB(255, 255, 255)
 Name.TextScaled = true
 Name.TextSize = 14
@@ -171,14 +185,15 @@ Name.TextYAlignment = Enum.TextYAlignment.Bottom
 UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(180, 180, 180))}
 UIGradient.Parent = Toggle
 
-Button.Name = "按钮"
+Button.Name = "Button"
+--Button.Parent = Arceus
 Button.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
 Button.Size = UDim2.new(0.95, 0, 0, 50)
 
 UICorner_6.CornerRadius = UDim.new(0.25, 0)
 UICorner_6.Parent = Button
 
-Name_2.Name = "按钮名称"
+Name_2.Name = "Name"
 Name_2.Parent = Button
 Name_2.AnchorPoint = Vector2.new(0, 0.5)
 Name_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -187,7 +202,7 @@ Name_2.BorderSizePixel = 0
 Name_2.Position = UDim2.new(0.05, 0, 0.5, 0)
 Name_2.Size = UDim2.new(0.95, 0, 0.82, 0)
 Name_2.Font = Enum.Font.TitilliumWeb
-Name_2.Text = "启用"
+Name_2.Text = "Enabled"
 Name_2.TextColor3 = Color3.fromRGB(255, 255, 255)
 Name_2.TextScaled = true
 Name_2.TextSize = 14
@@ -198,12 +213,13 @@ Name_2.TextYAlignment = Enum.TextYAlignment.Bottom
 UIGradient_2.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(180, 180, 180))}
 UIGradient_2.Parent = Button
 
-tab.Name = "分隔条"
+tab.Name = "Tab"
 tab.Visible = false
+--tab.Parent = Arceus
 tab.BackgroundTransparency = 1
 tab.Size = UDim2.new(0.95, 0, 0.025, 0)
 
-Close.Name = "关闭"
+Close.Name = "Close"
 Close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Close.BackgroundTransparency = 1
 Close.BorderSizePixel = 0
@@ -218,14 +234,14 @@ Close.TextWrapped = true
 Close.TextXAlignment = Enum.TextXAlignment.Right
 Close.Parent = Main
 
-ComboElem.Name = "组合选项"
+ComboElem.Name = "ComboElem"
 ComboElem.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
 ComboElem.Size = UDim2.new(0.95, 0, 0, 50)
 
 UICorner_7.CornerRadius = UDim.new(0.25, 0)
 UICorner_7.Parent = ComboElem
 
-Name_3.Name = "选项名称"
+Name_3.Name = "Name"
 Name_3.Parent = ComboElem
 Name_3.AnchorPoint = Vector2.new(0, 0.5)
 Name_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -234,7 +250,7 @@ Name_3.BorderSizePixel = 0
 Name_3.Position = UDim2.new(0.05, 0, 0.5, 0)
 Name_3.Size = UDim2.new(0.75, 0, 0.8, 0)
 Name_3.Font = Enum.Font.TitilliumWeb
-Name_3.Text = "启用"
+Name_3.Text = "Enabled"
 Name_3.TextColor3 = Color3.fromRGB(255, 0, 0)
 Name_3.TextScaled = true
 Name_3.TextSize = 14
@@ -246,7 +262,7 @@ UIGradient_3.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fr
 UIGradient_3.Rotation = 180
 UIGradient_3.Parent = ComboElem
 
-Img.Name = "图标"
+Img.Name = "Img"
 Img.Parent = ComboElem
 Img.AnchorPoint = Vector2.new(1, 0.5)
 Img.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -264,14 +280,14 @@ Img.TextWrapped = true
 
 UIAspectRatioConstraint_4.Parent = Img
 
-ComboBox.Name = "下拉菜单"
+ComboBox.Name = "ComboBox"
 ComboBox.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
 ComboBox.Size = UDim2.new(0.95, 0, 0, 50)
 
 UICorner_8.CornerRadius = UDim.new(0.25, 0)
 UICorner_8.Parent = ComboBox
 
-Name_4.Name = "菜单名称"
+Name_4.Name = "Name"
 Name_4.Parent = ComboBox
 Name_4.AnchorPoint = Vector2.new(0, 0.5)
 Name_4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -280,7 +296,7 @@ Name_4.BorderSizePixel = 0
 Name_4.Position = UDim2.new(0.05, 0, 0.5, 0)
 Name_4.Size = UDim2.new(0.75, 0, 0.8, 0)
 Name_4.Font = Enum.Font.TitilliumWeb
-Name_4.Text = "启用"
+Name_4.Text = "Enabled"
 Name_4.TextColor3 = Color3.fromRGB(255, 255, 255)
 Name_4.TextScaled = true
 Name_4.TextSize = 14
@@ -291,7 +307,7 @@ Name_4.TextYAlignment = Enum.TextYAlignment.Bottom
 UIGradient_4.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(180, 180, 180))}
 UIGradient_4.Parent = ComboBox
 
-Img_2.Name = "图标"
+Img_2.Name = "Img"
 Img_2.Parent = ComboBox
 Img_2.AnchorPoint = Vector2.new(1, 0.5)
 Img_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -309,7 +325,8 @@ Img_2.TextWrapped = true
 
 UIAspectRatioConstraint_5.Parent = Img_2
 
--- 功能逻辑
+-- SCRIPT
+
 local TweenService = game:GetService("TweenService")
 Close.MouseButton1Click:Connect(function()
 	Logo.Active = true
@@ -510,12 +527,13 @@ local function addComboBox(text, options, funct, ...) -- ADD CUSTOM ELEMENT INST
 	return newCombo
 end
 
--- 自瞄核心功能
+-- Actual Script
+
 local runService = game:GetService("RunService")
 local plrsService = game:GetService("Players")
 local enabled = false
 local teamcheck = false
-local aimpart = "头部"
+local aimpart = "Head"
 
 function lookAt(target, eye)
 	workspace.CurrentCamera.CFrame = CFrame.new(target, eye)
@@ -555,7 +573,7 @@ function getClosestPlayerToCursor(trg_part)
 end
 
 local toggleBtn
-toggleBtn = addToggle("启用自瞄", function(state)
+toggleBtn = addToggle("开启自瞄", function(state)
 	enabled = state
 end, false)
 
@@ -565,7 +583,7 @@ toggleTeamCheckBtn = addToggle("团队检测", function(state)
 end)
 
 local aimPartCombo
-aimPartCombo = addComboBox("瞄准部位", {"头部", "躯干"}, function(selection)
+aimPartCombo = addComboBox("瞄准部位", {"头", "身体"}, function(selection)
 	aimpart = selection
 end)
 
@@ -579,7 +597,8 @@ runService.RenderStepped:Connect(function()
 	end
 end)
 
--- 界面初始化
+-- INIT
+
 Main:TweenPosition(
 	UDim2.fromScale(0.5, 0.5),
 	Enum.EasingDirection.In,
