@@ -90,7 +90,7 @@ Tab:AddButton({
     end
 })
 
-Tab:AddButton({
+Tab:AddTextbox({
     Name = "旋转速度",
     Placeholder = "输入旋转速度值",
     Callback = function(Value)
