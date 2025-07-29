@@ -11,7 +11,7 @@ local Window = OrionLib:MakeWindow({
 pcall(function()
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "卡卡脚本",
-        Text = "欢迎使用，功能已就绪",
+        Text = "欢迎使用，功能已就序",
         Duration = 4,
         Icon = "rbxassetid://118894209472715"
     })
@@ -57,36 +57,6 @@ Tab:AddTextbox({
         if num then
             game.Workspace.Gravity = num
         end
-    end
-})
-
-Tab:AddToggle({
-    Name = "夜视",
-    Default = false,
-    Callback = function(Value)
-        game.Lighting.Ambient = Value and Color3.new(1, 1, 1) or Color3.new(0, 0, 0)
-    end
-})
-
-Tab:AddToggle({
-    Name = "踏空",
-    Default = false,
-    Callback = function(Value)
-        if Value then
-            local success, err = pcall(function()
-                loadstring(game:HttpGet('https://raw.githubusercontent.com/GhostPlayer352/Test4/main/Float'))()
-            end)
-            if not success then
-                warn("踏空功能脚本加载失败: ".. (err or "未知错误"))
-            end
-        end
-    end
-})
-
-Tab:AddButton({
-    Name = "自瞄",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/chillz-workshop/main/Arceus%20Aimbot.lua"))()
     end
 })
 
@@ -157,83 +127,115 @@ Tab:AddButton({
     Color = Color3.fromRGB(255, 99, 71)
 })
 
-Tab:AddButton({
-    Name = "透视",
-    Callback = function()
-        local Players = game:GetService("Players")
-        local RunService = game:GetService("RunService")
-        local LP = Players.LocalPlayer
-        local Teams = game:GetService("Teams")
+local isESPEnabled = false
+local highlights = {}
 
-        local function IsGunGame()
-            return #Teams:GetTeams() >= 2
-        end
-
-        local function IsEnemy(plr)
-            if not IsGunGame() then return false end
-            if not plr.Team or not LP.Team then return false end
-            return plr.Team ~= LP.Team
-        end
-
-        local function GetHighlightColor(plr)
-            if not IsGunGame() then
-                return Color3.fromRGB(255, 255, 255)
-            elseif IsEnemy(plr) then
-                return Color3.fromRGB(180, 0, 0)
-            else
-                return Color3.fromRGB(0, 150, 255)
-            end
-        end
-
-        local function CreateHighlight(target, color)
-            local h = Instance.new("Highlight")
-            h.Name = "StyledHighlight"
-            h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-            h.FillColor = color
-            h.FillTransparency = 0.75
-            h.OutlineColor = color
-            h.OutlineTransparency = 0.3
-            h.Adornee = target
-            h.Parent = target
-        end
-
-        local function SetupVisuals(plr)
-            if not plr.Character or plr == LP then return end
-            local char = plr.Character
-            if char:FindFirstChild("StyledHighlight") then return end
-
-            local color = GetHighlightColor(plr)
-            CreateHighlight(char, color)
-        end
-
-        for _, plr in ipairs(Players:GetPlayers()) do
-            if plr ~= LP then
-                SetupVisuals(plr)
-            end
-        end
-
-        Players.PlayerAdded:Connect(function(plr)
-            if plr == LP then return end
-            plr.CharacterAdded:Connect(function()
-                task.wait(0.2)
-                SetupVisuals(plr)
-            end)
-        end)
-
-        LP.CharacterAdded:Connect(function(myChar)
-            local h = myChar:FindFirstChild("StyledHighlight")
-            if h then h:Destroy() end
-        end)
+Tab:AddToggle({
+    Name = "夜视",
+    Default = false,
+    Callback = function(Value)
+        game.Lighting.Ambient = Value and Color3.new(1, 1, 1) or Color3.new(0, 0, 0)
     end
 })
 
-Tab:AddButton({
-    Name = "关闭透视",
-    Callback = function()
-        for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
-            if plr.Character and plr.Character:FindFirstChild("StyledHighlight") then
-                plr.Character.StyledHighlight:Destroy()
+Tab:AddToggle({
+    Name = "踏空",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            local success, err = pcall(function()
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/GhostPlayer352/Test4/main/Float'))()
+            end)
+            if not success then
+                warn("踏空功能脚本加载失败: ".. (err or "未知错误"))
             end
+        end
+    end
+})
+
+Tab:AddToggle({
+    Name = "透视",
+    Default = false,
+    Callback = function(toggle)
+        if toggle.IsOn then
+            local Players = game:GetService("Players")
+            local LP = Players.LocalPlayer
+            local Teams = game:GetService("Teams")
+
+            local function IsGunGame()
+                return #Teams:GetTeams() >= 2
+            end
+
+            local function IsEnemy(plr)
+                if not IsGunGame() then return false end
+                if not plr.Team or not LP.Team then return false end
+                return plr.Team ~= LP.Team
+            end
+
+            local function GetHighlightColor(plr)
+                if not IsGunGame() then
+                    return Color3.fromRGB(255, 255, 255)
+                elseif IsEnemy(plr) then
+                    return Color3.fromRGB(180, 0, 0)
+                else
+                    return Color3.fromRGB(0, 150, 255)
+                end
+            end
+
+            local function CreateHighlight(target, color)
+                local h = Instance.new("Highlight")
+                h.Name = "StyledHighlight"
+                h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                h.FillColor = color
+                h.FillTransparency = 0.75
+                h.OutlineColor = color
+                h.OutlineTransparency = 0.3
+                h.Adornee = target
+                h.Parent = target
+                table.insert(highlights, h)
+                return h
+            end
+
+            local function SetupVisuals(plr)
+                if not plr.Character or plr == LP then return end
+                local char = plr.Character
+                if char:FindFirstChild("StyledHighlight") then return end
+
+                local color = GetHighlightColor(plr)
+                CreateHighlight(char, color)
+            end
+
+            for _, plr in ipairs(Players:GetPlayers()) do
+                if plr ~= LP then
+                    SetupVisuals(plr)
+                end
+            end
+
+            Players.PlayerAdded:Connect(function(plr)
+                if plr == LP then return end
+                plr.CharacterAdded:Connect(function()
+                    task.wait(0.2)
+                    SetupVisuals(plr)
+                end)
+            end)
+
+            LP.CharacterAdded:Connect(function(myChar)
+                local h = myChar:FindFirstChild("StyledHighlight")
+                if h then h:Destroy() end
+            end)
+
+            isESPEnabled = true
+        else
+            for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+                if plr.Character then
+                    local highlight = plr.Character:FindFirstChild("StyledHighlight")
+                    if highlight then
+                        highlight:Destroy()
+                    end
+                end
+            end
+            table.clear(highlights)  
+            isESPEnabled = false
         end
     end
 })
@@ -250,6 +252,13 @@ Tab:AddButton({
                 warn("飞行功能脚本加载失败: ".. (err or "未知错误"))
             end
         end
+    end
+})
+
+Tab:AddButton({
+    Name = "自瞄",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/chillz-workshop/main/Arceus%20Aimbot.lua"))()
     end
 })
 
