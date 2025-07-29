@@ -234,7 +234,7 @@ Tab:AddButton({
     end
 })
 
-Tab:AddButton({
+Tab:AddToggle({
     Name = "飞行",
     Default = false,
     Callback = function(Value)
@@ -242,7 +242,6 @@ Tab:AddButton({
             local success, err = pcall(function()
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/HXB20111/roblox-/refs/heads/main/%E9%BB%84%E9%A3%9E%E8%A1%8C"))()
             end)
-            if not success then
             if not success then
                 warn("飞行功能脚本加载失败: ".. (err or "未知错误"))
             end
