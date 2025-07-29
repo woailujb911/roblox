@@ -24,34 +24,8 @@ local Tab = Window:MakeTab({
     PremiumOnly = false
 })
 
-Tab:AddSlider({
-    Name = "速度",
-    Min = 16,
-    Max = 200,
-    Default = 16,
-    Color = Color3.fromRGB(255, 255, 255),
-    Increment = 1,
-    ValueName = "数值",
-    Callback = function(Value)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
-    end
-})
-
-Tab:AddSlider({
-    Name = "跳跃高度",
-    Min = 50,
-    Max = 200,
-    Default = 50,
-    Color = Color3.fromRGB(255, 255, 255),
-    Increment = 1,
-    ValueName = "数值",
-    Callback = function(Value)
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
-    end
-})
-
 Tab:AddTextbox({
-    Name = "跳跃高度设置",
+    Name = "跳跃高度",
     Default = "",
     TextDisappear = true,
     Callback = function(Value)
@@ -63,7 +37,7 @@ Tab:AddTextbox({
 })
 
 Tab:AddTextbox({
-    Name = "移动速度设置",
+    Name = "移动速度",
     Default = "",
     TextDisappear = true,
     Callback = function(Value)
@@ -75,7 +49,7 @@ Tab:AddTextbox({
 })
 
 Tab:AddTextbox({
-    Name = "重力设置",
+    Name = "重力",
     Default = "",
     TextDisappear = true,
     Callback = function(Value)
@@ -100,7 +74,7 @@ Tab:AddToggle({
     Callback = function(Value)
         if Value then
             local success, err = pcall(function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/gqv7PXAa"))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/HXB20111/roblox-/refs/heads/main/%E9%BB%84%E9%A3%9E%E8%A1%8C"))()
             end)
             if not success then
                 warn("飞行功能脚本加载失败: ".. (err or "未知错误"))
@@ -140,9 +114,9 @@ Tab:AddToggle({
 })
 
 Tab:AddButton({
-    Name = "皮自瞄",
+    Name = "自瞄",
     Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/xiaopi77/xiaopi77/main/3683e49998644fb7.txt_2024-08-09_094310.OTed.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/chillz-workshop/main/Arceus%20Aimbot.lua"))()
     end
 })
 
@@ -217,7 +191,7 @@ Tab:AddButton({
 })
 
 Tab:AddButton({
-    Name = "清除高亮",
+    Name = "关闭透视",
     Callback = function()
         for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
             if plr.Character and plr.Character:FindFirstChild("StyledHighlight") then
@@ -257,6 +231,78 @@ AuthorTab:AddButton({
         end
     end,
     Color = Color3.fromRGB(100, 200, 100)
+})
+
+local InkGameTab = Window:MakeTab({
+    Name = "开发者",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+InkGameTab:AddButton({
+    Name = "dex",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Focuslol666/RbxScripts/refs/heads/main/Other/DexPlusPlus%20(ZH-CN).lua", true))()
+        end)
+        if not success then
+            warn("dex脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
+InkGameTab:AddButton({
+    Name = "IY",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source(ZH-CN).lua", true))()
+        end)
+        if not success then
+            warn("IY脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
+local InkGameTab = Window:MakeTab({
+    Name = "其它脚本",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+InkGameTab:AddButton({
+    Name = "汉化脚本",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/S-WTB/-/refs/heads/main/ISIS加载器", true))()
+        end)
+        if not success then
+            warn("汉化脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
+InkGameTab:AddButton({
+    Name = "溺凌脚本",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/ShenJiaoBen/ScriptLoader/refs/heads/main/Linni_FreeLoader.lua(ZH-CN).lua", true))()
+        end)
+        if not success then
+            warn("溺凌脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
+InkGameTab:AddButton({
+    Name = "TX脚本",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/JsYb666/TX-Free-YYDS/refs/heads/main/FREE-TX-TEAM", true))()
+        end)
+        if not success then
+            warn("TX脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
 })
 
 -- 墨水游戏 Tab
