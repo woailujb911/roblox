@@ -69,21 +69,6 @@ Tab:AddToggle({
 })
 
 Tab:AddToggle({
-    Name = "飞行",
-    Default = false,
-    Callback = function(Value)
-        if Value then
-            local success, err = pcall(function()
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/HXB20111/roblox-/refs/heads/main/%E9%BB%84%E9%A3%9E%E8%A1%8C"))()
-            end)
-            if not success then
-                warn("飞行功能脚本加载失败: ".. (err or "未知错误"))
-            end
-        end
-    end
-})
-
-Tab:AddToggle({
     Name = "踏空",
     Default = false,
     Callback = function(Value)
@@ -253,6 +238,21 @@ Tab:AddButton({
     end
 })
 
+Tab:AddButton({
+    Name = "飞行",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            local success, err = pcall(function()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/HXB20111/roblox-/refs/heads/main/%E9%BB%84%E9%A3%9E%E8%A1%8C"))()
+            end)
+            if not success then
+                warn("飞行功能脚本加载失败: ".. (err or "未知错误"))
+            end
+        end
+    end
+})
+
 -- 作者信息标签页
 local AuthorTab = Window:MakeTab({
     Name = "作者信息",
@@ -261,7 +261,10 @@ local AuthorTab = Window:MakeTab({
 
 AuthorTab:AddParagraph("作者", "卡卡大帝")
 AuthorTab:AddParagraph("作者QQ", "3804046925")
+AuthorTab:AddParagraph("副作者", "Hfh916")
+AuthorTab:AddParagraph("作者QQ", "1357377308")
 AuthorTab:AddParagraph("QQ群", "1054175537")
+
 
 AuthorTab:AddButton({
     Name = "复制作者QQ",
