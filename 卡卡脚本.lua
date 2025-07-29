@@ -360,7 +360,24 @@ InkGameTab:AddButton({
     end
 })
 
--- 墨水游戏 Tab
+local InkGameTab = Window:MakeTab({
+    Name = "-脚本区-",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+InkGameTab:AddButton({
+    Name = "建造一架飞机",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://rscripts.net/raw/not-patched-infinite-money-money-farm-open-shop_1753743540999_gqxO4z8nzH.txt", true))()
+        end)
+        if not success then
+            warn("脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
 local InkGameTab = Window:MakeTab({
     Name = "墨水游戏",
     Icon = "rbxassetid://4483345998",
@@ -379,7 +396,6 @@ InkGameTab:AddButton({
     end
 })
 
--- 一路向西 Tab
 local WestboundTab = Window:MakeTab({
     Name = "一路向西",
     Icon = "rbxassetid://4483345998",
@@ -398,7 +414,6 @@ WestboundTab:AddButton({
     end
 })
 
--- 死铁轨 Tab
 local DeadRailTab = Window:MakeTab({
     Name = "死铁轨",
     Icon = "rbxassetid://4483345998",
