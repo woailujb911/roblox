@@ -485,17 +485,74 @@ WestboundTab:AddButton({
 })
 
 local DeadRailTab = Window:MakeTab({
-    Name = "死铁轨",
+    Name = "警长与杀手",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
 DeadRailTab:AddButton({
-    Name = "脚本一",
+    Name = "透视",
     Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/m00ndiety/OP-AUTO-BONDS-V3/refs/heads/main/Keyless-BONDS-v3"))()
-    end
-})
+            local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
 
+local function createESP(player)
+    local billboard = Instance.new("BillboardGui")
+    billboard.Name = "ESP"
+    billboard.Size = UDim2.new(0, 100, 0, 40)
+    billboard.StudsOffset = Vector3.new(0, 3, 0)
+    billboard.AlwaysOnTop = true
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundTransparency = 1
+    label.Text = ""
+    label.TextColor3 = Color3.new(1, 1, 1)
+    label.TextScaled = true
+    label.Font = Enum.Font.SourceSansBold
+    label.Parent = billboard
+
+    local function updateText()
+        local char = player.Character
+        local myChar = LocalPlayer.Character
+        if char and char:FindFirstChild("HumanoidRootPart") and myChar and myChar:FindFirstChild("HumanoidRootPart") then
+            local distance = (char.HumanoidRootPart.Position - myChar.HumanoidRootPart.Position).Magnitude
+            label.Text = player.Name .. string.format(" [%.0f m]", distance)
+        end
+    end
+
+    local function onCharacterAdded(char)
+        local hrp = char:WaitForChild("HumanoidRootPart")
+        billboard.Parent = hrp
+    end
+
+    if player.Character then onCharacterAdded(player.Character) end
+    player.CharacterAdded:Connect(onCharacterAdded)
+
+    RunService.RenderStepped:Connect(function()
+        if _G.ESPEnabled then
+            updateText()
+            billboard.Enabled = true
+        else
+            billboard.Enabled = false
+        end
+    end)
+end
+
+_G.ESPEnabled = true
+
+for _, player in pairs(Players:GetPlayers()) do
+    if player ~= LocalPlayer then
+        createESP(player)
+    end
+end
+
+Players.PlayerAdded:Connect(function(player)
+    if player ~= LocalPlayer then
+        createESP(player)
+    end
+end)
+            
 -- 初始化界面
 OrionLib:Init()
