@@ -127,6 +127,10 @@ Tab:AddButton({
     Color = Color3.fromRGB(255, 99, 71)
 })
 
+local isClipping = false
+local stepConnection = nil
+local function getCharacter()
+
 Tab:AddToggle({
     Name = "穿墙",
     Default = false,
