@@ -261,11 +261,11 @@ Tab:AddButton({
 Tab:AddButton({
     Name = "透视2",
     Callback = function()
-        local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
+    local Players = game:GetService("Players")
+    local RunService = game:GetService("RunService")
+    local LocalPlayer = Players.LocalPlayer
 
-local function createESP(player)
+    local function createESP(player)
     local billboard = Instance.new("BillboardGui")
     billboard.Name = "ESP"
     billboard.Size = UDim2.new(0, 100, 0, 40)
@@ -397,13 +397,13 @@ AuthorTab:AddButton({
     Color = Color3.fromRGB(100, 200, 100)
 })
 
-local InkGameTab = Window:MakeTab({
+local KaifazeTab = Window:MakeTab({
     Name = "开发者",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-InkGameTab:AddButton({
+KaifazeTab:AddButton({
     Name = "dex",
     Callback = function()
         local success, err = pcall(function()
@@ -415,7 +415,7 @@ InkGameTab:AddButton({
     end
 })
 
-InkGameTab:AddButton({
+KaifazeTab:AddButton({
     Name = "IY",
     Callback = function()
         local success, err = pcall(function()
@@ -427,13 +427,13 @@ InkGameTab:AddButton({
     end
 })
 
-local InkGameTab = Window:MakeTab({
+local QitaTab = Window:MakeTab({
     Name = "其它脚本",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-InkGameTab:AddButton({
+QitaTab:AddButton({
     Name = "汉化脚本",
     Callback = function()
         local success, err = pcall(function()
@@ -445,7 +445,7 @@ InkGameTab:AddButton({
     end
 })
 
-InkGameTab:AddButton({
+QitaTab:AddButton({
     Name = "溺凌脚本",
     Callback = function()
         local success, err = pcall(function()
@@ -457,7 +457,7 @@ InkGameTab:AddButton({
     end
 })
 
-InkGameTab:AddButton({
+QitaTab:AddButton({
     Name = "TX脚本",
     Callback = function()
         local success, err = pcall(function()
@@ -469,13 +469,13 @@ InkGameTab:AddButton({
     end
 })
 
-local InkGameTab = Window:MakeTab({
+local JiaobenTab = Window:MakeTab({
     Name = "-脚本区-",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-InkGameTab:AddButton({
+JiaobenTab:AddButton({
     Name = "建造一架飞机",
     Callback = function()
         local success, err = pcall(function()
@@ -487,7 +487,7 @@ InkGameTab:AddButton({
     end
 })
 
-InkGameTab:AddButton({
+JiaobenTab:AddButton({
     Name = "墨水游戏",
     Callback = function()
         local success, err = pcall(function()
@@ -499,7 +499,7 @@ InkGameTab:AddButton({
     end
 })
 
-InkGameTab:AddButton({
+JiaobenTab:AddButton({
     Name = "战争大亨",
     Callback = function()
         local success, err = pcall(function()
