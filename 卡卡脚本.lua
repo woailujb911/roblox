@@ -189,7 +189,7 @@ Tab:AddToggle({
 })
 
 Tab:AddButton({
-    Name = "透视1",
+    Name = "透视",
     Callback = function()
         local Players = game:GetService("Players")
         local RunService = game:GetService("RunService")
@@ -257,70 +257,6 @@ Tab:AddButton({
         end)
     end
 })
-
-Tab:AddButton({
-    Name = "透视2",
-    Callback = function()
-    local Players = game:GetService("Players")
-    local RunService = game:GetService("RunService")
-    local LocalPlayer = Players.LocalPlayer
-
-    local function createESP(player)
-    local billboard = Instance.new("BillboardGui")
-    billboard.Name = "ESP"
-    billboard.Size = UDim2.new(0, 100, 0, 40)
-    billboard.StudsOffset = Vector3.new(0, 3, 0)
-    billboard.AlwaysOnTop = true
-
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, 0, 1, 0)
-    label.BackgroundTransparency = 1
-    label.Text = ""
-    label.TextColor3 = Color3.new(1, 1, 1)
-    label.TextScaled = true
-    label.Font = Enum.Font.SourceSansBold
-    label.Parent = billboard
-
-    local function updateText()
-        local char = player.Character
-        local myChar = LocalPlayer.Character
-        if char and char:FindFirstChild("HumanoidRootPart") and myChar and myChar:FindFirstChild("HumanoidRootPart") then
-            local distance = (char.HumanoidRootPart.Position - myChar.HumanoidRootPart.Position).Magnitude
-            label.Text = player.Name .. string.format(" [%.0f m]", distance)
-        end
-    end
-
-    local function onCharacterAdded(char)
-        local hrp = char:WaitForChild("HumanoidRootPart")
-        billboard.Parent = hrp
-    end
-
-    if player.Character then onCharacterAdded(player.Character) end
-    player.CharacterAdded:Connect(onCharacterAdded)
-
-    RunService.RenderStepped:Connect(function()
-        if _G.ESPEnabled then
-            updateText()
-            billboard.Enabled = true
-        else
-            billboard.Enabled = false
-        end
-    end)
-end
-
-_G.ESPEnabled = true
-
-for _, player in pairs(Players:GetPlayers()) do
-    if player ~= LocalPlayer then
-        createESP(player)
-    end
-end
-
-Players.PlayerAdded:Connect(function(player)
-    if player ~= LocalPlayer then
-        createESP(player)
-    end
-end)
 
 Tab:AddButton({
     Name = "关闭透视",
@@ -545,6 +481,127 @@ WestboundTab:AddButton({
         if not success then
             warn("一路向西脚本一加载失败: ".. (err or "未知错误"))
         end
+    end
+})
+
+local Tab = Window:MakeTab({
+    Name = "警察vs凶手",
+    Icon = "rbxassetid://7733779610", -- 图标素材ID
+    PremiumOnly = false
+})
+
+Tab:AddToggle({
+    Name = "开启/关闭 ESP",
+    Default = true,
+    Callback = function(state)
+        _G.ESPEnabled = state
+    end
+})
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+_G.ESPEnabled = true
+
+local function createESP(player)
+    local billboard = Instance.new("BillboardGui")
+    billboard.Name = "ESP"
+    billboard.Size = UDim2.new(0, 100, 0, 40)
+    billboard.StudsOffset = Vector3.new(0, 3, 0)
+    billboard.AlwaysOnTop = true
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundTransparency = 1
+    label.Text = ""
+    label.TextColor3 = Color3.new(1, 1, 1)
+    label.TextScaled = true
+    label.Font = Enum.Font.SourceSansBold
+    label.Parent = billboard
+
+    local function updateText()
+        local char = player.Character
+        local myChar = LocalPlayer.Character
+        if char and char:FindFirstChild("HumanoidRootPart") and myChar and myChar:FindFirstChild("HumanoidRootPart") then
+            local distance = (char.HumanoidRootPart.Position - myChar.HumanoidRootPart.Position).Magnitude
+            label.Text = player.Name .. string.format(" [%.0f m]", distance)
+        end
+    end
+
+    local function onCharacterAdded(char)
+        local hrp = char:WaitForChild("HumanoidRootPart")
+        billboard.Parent = hrp
+    end
+
+    if player.Character then onCharacterAdded(player.Character) end
+    player.CharacterAdded:Connect(onCharacterAdded)
+
+    -- 每帧刷新
+    RunService.RenderStepped:Connect(function()
+        if player and player.Parent and billboard and label then
+            if _G.ESPEnabled then
+                updateText()
+                billboard.Enabled = true
+            else
+                billboard.Enabled = false
+            end
+        end
+    end)
+end
+
+-- 初始化所有当前玩家
+for _, player in pairs(Players:GetPlayers()) do
+    if player ~= LocalPlayer then
+        createESP(player)
+    end
+end
+
+-- 有新玩家加入
+Players.PlayerAdded:Connect(function(player)
+    if player ~= LocalPlayer then
+        createESP(player)
+    end
+end)
+
+Tab:AddButton({
+    Name = "修改玩家的头部大小",
+    Callback = function()
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+        local count = 0
+
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= LocalPlayer then
+                local character = player.Character
+                if character then
+                    local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+                    local head = character:FindFirstChild("Head")
+
+                    if humanoid and head then
+                        if humanoid.RigType == Enum.HumanoidRigType.R15 then
+                            
+                            if head:IsA("MeshPart") then
+                                head.Size = Vector3.new(1, 1, 1) * headScale
+                                count += 1
+                            end
+                        elseif humanoid.RigType == Enum.HumanoidRigType.R6 then
+                            
+                            local mesh = head:FindFirstChildWhichIsA("SpecialMesh")
+                            if mesh then
+                                mesh.Scale = Vector3.new(1, 1, 1) * headScale
+                                count += 1
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+        OrionLib:MakeNotification({
+            Name = "完成",
+            Content = "已修改 " .. count .. " 个玩家的头部大小",
+            Time = 3
+        })
     end
 })
 
