@@ -1,4 +1,4 @@
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/wsomoQaz/lua-/main/A%E4%BD%B3"))()
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/HXB20111/roblox-/refs/heads/main/gui_modified_with_toggle.txt"))()
 local Window = OrionLib:MakeWindow({
     Name = "卡卡脚本",
     SaveConfig = true,
