@@ -497,5 +497,152 @@ DeadRailTab:AddButton({
     end
 })
 
+local PoliceVsKillerTab = Window:MakeTab({
+    Name = "警察vs凶手",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- 头部缩放倍数输入框
+PoliceVsKillerTab:AddTextbox({
+    Name = "头部缩放倍数 (如 2)",
+    Default = "1",
+    TextDisappear = false,
+    Callback = function(text)
+        local number = tonumber(text)
+        if number then
+            headScale = number  -- 使用全局变量存储
+        else
+            OrionLib:MakeNotification({
+                Name = "错误",
+                Content = "请输入有效数字！",
+                Time = 2
+            })
+        end
+    end
+})
+
+-- 修改玩家头部大小按钮
+PoliceVsKillerTab:AddButton({
+    Name = "修改玩家的头部大小",
+    Callback = function()
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+        local count = 0
+
+        if not headScale then
+            OrionLib:MakeNotification({
+                Name = "错误",
+                Content = "请先设置头部缩放倍数！",
+                Time = 2
+            })
+            return
+        end
+
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= LocalPlayer then
+                local character = player.Character
+                if character then
+                    local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+                    local head = character:FindFirstChild("Head")
+
+                    if humanoid and head then
+                        if humanoid.RigType == Enum.HumanoidRigType.R15 and head:IsA("MeshPart") then
+                            head.Size = Vector3.new(1, 1, 1) * headScale
+                            count += 1
+                        elseif humanoid.RigType == Enum.HumanoidRigType.R6 then
+                            local mesh = head:FindFirstChildWhichIsA("SpecialMesh")
+                            if mesh then
+                                mesh.Scale = Vector3.new(1, 1, 1) * headScale
+                                count += 1
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+        OrionLib:MakeNotification({
+            Name = "完成",
+            Content = "已修改 " .. count .. " 个玩家的头部大小",
+            Time = 3
+        })
+    end
+})
+
+-- ESP开关
+PoliceVsKillerTab:AddToggle({
+    Name = "开启/关闭 ESP",
+    Default = true,
+    Callback = function(state)
+        _G.ESPEnabled = state
+    end
+})
+
+-- ESP功能实现
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+_G.ESPEnabled = true
+
+local function createESP(player)
+    local billboard = Instance.new("BillboardGui")
+    billboard.Name = "ESP"
+    billboard.Size = UDim2.new(0, 100, 0, 40)
+    billboard.StudsOffset = Vector3.new(0, 3, 0)
+    billboard.AlwaysOnTop = true
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundTransparency = 1
+    label.Text = ""
+    label.TextColor3 = Color3.new(1, 1, 1)
+    label.TextScaled = true
+    label.Font = Enum.Font.SourceSansBold
+    label.Parent = billboard
+
+    local function updateText()
+        local char = player.Character
+        local myChar = LocalPlayer.Character
+        if char and char:FindFirstChild("HumanoidRootPart") and myChar and myChar:FindFirstChild("HumanoidRootPart") then
+            local distance = (char.HumanoidRootPart.Position - myChar.HumanoidRootPart.Position).Magnitude
+            label.Text = player.Name .. string.format(" [%.0f m]", distance)
+        end
+    end
+
+    local function onCharacterAdded(char)
+        local hrp = char:WaitForChild("HumanoidRootPart")
+        billboard.Parent = hrp
+    end
+
+    if player.Character then onCharacterAdded(player.Character) end
+    player.CharacterAdded:Connect(onCharacterAdded)
+
+    RunService.RenderStepped:Connect(function()
+        if player and player.Parent and billboard and label then
+            if _G.ESPEnabled then
+                updateText()
+                billboard.Enabled = true
+            else
+                billboard.Enabled = false
+            end
+        end
+    end)
+end
+
+-- 初始化当前玩家的ESP
+for _, player in pairs(Players:GetPlayers()) do
+    if player ~= LocalPlayer then
+        createESP(player)
+    end
+end
+
+-- 新玩家加入时初始化ESP
+Players.PlayerAdded:Connect(function(player)
+    if player ~= LocalPlayer then
+        createESP(player)
+    end
+end)
+
 -- 初始化界面
 OrionLib:Init()
