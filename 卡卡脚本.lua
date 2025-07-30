@@ -1,4 +1,4 @@
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/wsomoQaz/lua-/main/A%E4%BD%B3"))()
+local OrionLib = loadstring(game:HttpGet("https://pastebin.com/raw/3vQbADjh"))()
 local Window = OrionLib:MakeWindow({
     Name = "卡卡脚本",
     SaveConfig = true,
