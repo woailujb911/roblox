@@ -486,7 +486,7 @@ WestboundTab:AddButton({
 
 local Tab = Window:MakeTab({
     Name = "警察vs凶手",
-    Icon = "rbxassetid://7733779610", -- 图标素材ID
+    Icon = "rbxassetid:///4483345998", -- 图标素材ID
     PremiumOnly = false
 })
 
