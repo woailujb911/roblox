@@ -488,13 +488,83 @@ WestboundTab:AddButton({
     end
 })
 
-local Tab = Window:MakeTab({
+local PoliceVsKillerTab = Window:MakeTab({
     Name = "警察vs凶手",
-    Icon = "rbxassetid:///4483345998", -- 图标素材ID
+    Icon = "rbxassetid://4483345998", -- 图标素材ID
     PremiumOnly = false
 })
 
-Tab:AddToggle({
+-- 头部缩放倍数输入框
+PoliceVsKillerTab:AddTextbox({
+    Name = "头部缩放倍数 (如 2)",
+    Default = "1",
+    TextDisappear = false,
+    Callback = function(text)
+        local number = tonumber(text)
+        if number then
+            headScale = number -- 定义全局变量存储缩放倍数
+        else
+            OrionLib:MakeNotification({
+                Name = "错误",
+                Content = "请输入有效数字！",
+                Time = 2
+            })
+        end
+    end
+})
+
+-- 修改玩家头部大小按钮
+PoliceVsKillerTab:AddButton({
+    Name = "修改玩家的头部大小",
+    Callback = function()
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+        local count = 0
+        -- 检查headScale是否已定义
+        if not headScale then
+            OrionLib:MakeNotification({
+                Name = "错误",
+                Content = "请先设置头部缩放倍数！",
+                Time = 2
+            })
+            return
+        end
+
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= LocalPlayer then
+                local character = player.Character
+                if character then
+                    local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+                    local head = character:FindFirstChild("Head")
+
+                    if humanoid and head then
+                        if humanoid.RigType == Enum.HumanoidRigType.R15 then
+                            if head:IsA("MeshPart") then
+                                head.Size = Vector3.new(1, 1, 1) * headScale
+                                count += 1
+                            end
+                        elseif humanoid.RigType == Enum.HumanoidRigType.R6 then
+                            local mesh = head:FindFirstChildWhichIsA("SpecialMesh")
+                            if mesh then
+                                mesh.Scale = Vector3.new(1, 1, 1) * headScale
+                                count += 1
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+        OrionLib:MakeNotification({
+            Name = "完成",
+            Content = "已修改 " .. count .. " 个玩家的头部大小",
+            Time = 3
+        })
+    end
+})
+
+-- ESP开关
+PoliceVsKillerTab:AddToggle({
     Name = "开启/关闭 ESP",
     Default = true,
     Callback = function(state)
@@ -502,6 +572,7 @@ Tab:AddToggle({
     end
 })
 
+-- ESP功能实现
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
@@ -540,7 +611,7 @@ local function createESP(player)
     if player.Character then onCharacterAdded(player.Character) end
     player.CharacterAdded:Connect(onCharacterAdded)
 
-    -- 每帧刷新
+    -- 每帧刷新ESP显示
     RunService.RenderStepped:Connect(function()
         if player and player.Parent and billboard and label then
             if _G.ESPEnabled then
@@ -553,61 +624,19 @@ local function createESP(player)
     end)
 end
 
--- 初始化所有当前玩家
+-- 初始化当前玩家的ESP
 for _, player in pairs(Players:GetPlayers()) do
     if player ~= LocalPlayer then
         createESP(player)
     end
 end
 
--- 有新玩家加入
+-- 新玩家加入时初始化ESP
 Players.PlayerAdded:Connect(function(player)
     if player ~= LocalPlayer then
         createESP(player)
     end
 end)
-
-Tab:AddButton({
-    Name = "修改玩家的头部大小",
-    Callback = function()
-        local Players = game:GetService("Players")
-        local LocalPlayer = Players.LocalPlayer
-        local count = 0
-
-        for _, player in pairs(Players:GetPlayers()) do
-            if player ~= LocalPlayer then
-                local character = player.Character
-                if character then
-                    local humanoid = character:FindFirstChildWhichIsA("Humanoid")
-                    local head = character:FindFirstChild("Head")
-
-                    if humanoid and head then
-                        if humanoid.RigType == Enum.HumanoidRigType.R15 then
-                            
-                            if head:IsA("MeshPart") then
-                                head.Size = Vector3.new(1, 1, 1) * headScale
-                                count += 1
-                            end
-                        elseif humanoid.RigType == Enum.HumanoidRigType.R6 then
-                            
-                            local mesh = head:FindFirstChildWhichIsA("SpecialMesh")
-                            if mesh then
-                                mesh.Scale = Vector3.new(1, 1, 1) * headScale
-                                count += 1
-                            end
-                        end
-                    end
-                end
-            end
-        end
-
-        OrionLib:MakeNotification({
-            Name = "完成",
-            Content = "已修改 " .. count .. " 个玩家的头部大小",
-            Time = 3
-        })
-    end
-})
 
 -- 初始化界面
 OrionLib:Init()
