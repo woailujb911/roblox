@@ -60,6 +60,9 @@ Tab:AddTextbox({
     end
 })
 
+local spinVelocity = nil  -- 关键：在此处声明，作用域覆盖下方两个回调
+
+-- 旋转速度设置（回调函数1）
 Tab:AddTextbox({
     Name = "旋转速度",
     Placeholder = "输入旋转速度值",
@@ -79,6 +82,7 @@ Tab:AddTextbox({
         local humanoid = plr.Character:WaitForChild("Humanoid")
         humanoid.AutoRotate = false
 
+        -- 直接使用外部声明的 spinVelocity，不再用 local 重新定义
         if not spinVelocity then
             spinVelocity = Instance.new("AngularVelocity")
             spinVelocity.Attachment0 = humRoot:WaitForChild("RootAttachment")
@@ -109,7 +113,7 @@ Tab:AddButton({
         local spinbot = humRoot:FindFirstChild("Spinbot")
         if spinbot then
             spinbot:Destroy()
-            spinVelocity = nil
+            spinVelocity = nil  -- 直接修改外部声明的 spinVelocity
             humanoid.AutoRotate = true
             OrionLib:MakeNotification({
                 Name = "已停止",
