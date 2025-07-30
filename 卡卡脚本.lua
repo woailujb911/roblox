@@ -1,4 +1,4 @@
-local OrionLib = loadstring(game:HttpGet("https://pastebin.com/raw/FUEx0f3G"))()
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/wsomoQaz/lua-/main/A%E4%BD%B3"))()
 local Window = OrionLib:MakeWindow({
     Name = "卡卡脚本",
     SaveConfig = true,
@@ -60,9 +60,6 @@ Tab:AddTextbox({
     end
 })
 
-local spinVelocity = nil  -- 关键：在此处声明，作用域覆盖下方两个回调
-
--- 旋转速度设置（回调函数1）
 Tab:AddTextbox({
     Name = "旋转速度",
     Placeholder = "输入旋转速度值",
@@ -82,7 +79,6 @@ Tab:AddTextbox({
         local humanoid = plr.Character:WaitForChild("Humanoid")
         humanoid.AutoRotate = false
 
-        -- 直接使用外部声明的 spinVelocity，不再用 local 重新定义
         if not spinVelocity then
             spinVelocity = Instance.new("AngularVelocity")
             spinVelocity.Attachment0 = humRoot:WaitForChild("RootAttachment")
@@ -113,7 +109,7 @@ Tab:AddButton({
         local spinbot = humRoot:FindFirstChild("Spinbot")
         if spinbot then
             spinbot:Destroy()
-            spinVelocity = nil  -- 直接修改外部声明的 spinVelocity
+            spinVelocity = nil
             humanoid.AutoRotate = true
             OrionLib:MakeNotification({
                 Name = "已停止",
@@ -130,10 +126,6 @@ Tab:AddButton({
     end,
     Color = Color3.fromRGB(255, 99, 71)
 })
-
-local isClipping = false
-local stepConnection = nil
-local function getCharacter()
 
 Tab:AddToggle({
     Name = "穿墙",
@@ -341,13 +333,13 @@ AuthorTab:AddButton({
     Color = Color3.fromRGB(100, 200, 100)
 })
 
-local KaifazeTab = Window:MakeTab({
+local InkGameTab = Window:MakeTab({
     Name = "开发者",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-KaifazeTab:AddButton({
+InkGameTab:AddButton({
     Name = "dex",
     Callback = function()
         local success, err = pcall(function()
@@ -359,7 +351,7 @@ KaifazeTab:AddButton({
     end
 })
 
-KaifazeTab:AddButton({
+InkGameTab:AddButton({
     Name = "IY",
     Callback = function()
         local success, err = pcall(function()
@@ -371,13 +363,13 @@ KaifazeTab:AddButton({
     end
 })
 
-local QitaTab = Window:MakeTab({
+local InkGameTab = Window:MakeTab({
     Name = "其它脚本",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-QitaTab:AddButton({
+InkGameTab:AddButton({
     Name = "汉化脚本",
     Callback = function()
         local success, err = pcall(function()
@@ -389,7 +381,7 @@ QitaTab:AddButton({
     end
 })
 
-QitaTab:AddButton({
+InkGameTab:AddButton({
     Name = "溺凌脚本",
     Callback = function()
         local success, err = pcall(function()
@@ -401,7 +393,7 @@ QitaTab:AddButton({
     end
 })
 
-QitaTab:AddButton({
+InkGameTab:AddButton({
     Name = "TX脚本",
     Callback = function()
         local success, err = pcall(function()
@@ -413,13 +405,13 @@ QitaTab:AddButton({
     end
 })
 
-local JiaobenTab = Window:MakeTab({
+local InkGameTab = Window:MakeTab({
     Name = "-脚本区-",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-JiaobenTab:AddButton({
+InkGameTab:AddButton({
     Name = "建造一架飞机",
     Callback = function()
         local success, err = pcall(function()
@@ -431,7 +423,7 @@ JiaobenTab:AddButton({
     end
 })
 
-JiaobenTab:AddButton({
+InkGameTab:AddButton({
     Name = "墨水游戏",
     Callback = function()
         local success, err = pcall(function()
@@ -443,7 +435,7 @@ JiaobenTab:AddButton({
     end
 })
 
-JiaobenTab:AddButton({
+InkGameTab:AddButton({
     Name = "战争大亨",
     Callback = function()
         local success, err = pcall(function()
@@ -492,155 +484,18 @@ WestboundTab:AddButton({
     end
 })
 
-local PoliceVsKillerTab = Window:MakeTab({
-    Name = "警察vs凶手",
-    Icon = "rbxassetid://4483345998", -- 图标素材ID
+local DeadRailTab = Window:MakeTab({
+    Name = "死铁轨",
+    Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
--- 头部缩放倍数输入框
-PoliceVsKillerTab:AddTextbox({
-    Name = "头部缩放倍数 (如 2)",
-    Default = "1",
-    TextDisappear = false,
-    Callback = function(text)
-        local number = tonumber(text)
-        if number then
-            headScale = number -- 定义全局变量存储缩放倍数
-        else
-            OrionLib:MakeNotification({
-                Name = "错误",
-                Content = "请输入有效数字！",
-                Time = 2
-            })
-        end
-    end
-})
-
--- 修改玩家头部大小按钮
-PoliceVsKillerTab:AddButton({
-    Name = "修改玩家的头部大小",
+DeadRailTab:AddButton({
+    Name = "脚本一",
     Callback = function()
-        local Players = game:GetService("Players")
-        local LocalPlayer = Players.LocalPlayer
-        local count = 0
-        -- 检查headScale是否已定义
-        if not headScale then
-            OrionLib:MakeNotification({
-                Name = "错误",
-                Content = "请先设置头部缩放倍数！",
-                Time = 2
-            })
-            return
-        end
-
-        for _, player in pairs(Players:GetPlayers()) do
-            if player ~= LocalPlayer then
-                local character = player.Character
-                if character then
-                    local humanoid = character:FindFirstChildWhichIsA("Humanoid")
-                    local head = character:FindFirstChild("Head")
-
-                    if humanoid and head then
-                        if humanoid.RigType == Enum.HumanoidRigType.R15 then
-                            if head:IsA("MeshPart") then
-                                head.Size = Vector3.new(1, 1, 1) * headScale
-                                count += 1
-                            end
-                        elseif humanoid.RigType == Enum.HumanoidRigType.R6 then
-                            local mesh = head:FindFirstChildWhichIsA("SpecialMesh")
-                            if mesh then
-                                mesh.Scale = Vector3.new(1, 1, 1) * headScale
-                                count += 1
-                            end
-                        end
-                    end
-                end
-            end
-        end
-
-        OrionLib:MakeNotification({
-            Name = "完成",
-            Content = "已修改 " .. count .. " 个玩家的头部大小",
-            Time = 3
-        })
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/m00ndiety/OP-AUTO-BONDS-V3/refs/heads/main/Keyless-BONDS-v3"))()
     end
 })
-
--- ESP开关
-PoliceVsKillerTab:AddToggle({
-    Name = "开启/关闭 ESP",
-    Default = true,
-    Callback = function(state)
-        _G.ESPEnabled = state
-    end
-})
-
--- ESP功能实现
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-_G.ESPEnabled = true
-
-local function createESP(player)
-    local billboard = Instance.new("BillboardGui")
-    billboard.Name = "ESP"
-    billboard.Size = UDim2.new(0, 100, 0, 40)
-    billboard.StudsOffset = Vector3.new(0, 3, 0)
-    billboard.AlwaysOnTop = true
-
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, 0, 1, 0)
-    label.BackgroundTransparency = 1
-    label.Text = ""
-    label.TextColor3 = Color3.new(1, 1, 1)
-    label.TextScaled = true
-    label.Font = Enum.Font.SourceSansBold
-    label.Parent = billboard
-
-    local function updateText()
-        local char = player.Character
-        local myChar = LocalPlayer.Character
-        if char and char:FindFirstChild("HumanoidRootPart") and myChar and myChar:FindFirstChild("HumanoidRootPart") then
-            local distance = (char.HumanoidRootPart.Position - myChar.HumanoidRootPart.Position).Magnitude
-            label.Text = player.Name .. string.format(" [%.0f m]", distance)
-        end
-    end
-
-    local function onCharacterAdded(char)
-        local hrp = char:WaitForChild("HumanoidRootPart")
-        billboard.Parent = hrp
-    end
-
-    if player.Character then onCharacterAdded(player.Character) end
-    player.CharacterAdded:Connect(onCharacterAdded)
-
-    -- 每帧刷新ESP显示
-    RunService.RenderStepped:Connect(function()
-        if player and player.Parent and billboard and label then
-            if _G.ESPEnabled then
-                updateText()
-                billboard.Enabled = true
-            else
-                billboard.Enabled = false
-            end
-        end
-    end)
-end
-
--- 初始化当前玩家的ESP
-for _, player in pairs(Players:GetPlayers()) do
-    if player ~= LocalPlayer then
-        createESP(player)
-    end
-end
-
--- 新玩家加入时初始化ESP
-Players.PlayerAdded:Connect(function(player)
-    if player ~= LocalPlayer then
-        createESP(player)
-    end
-end)
 
 -- 初始化界面
 OrionLib:Init()
