@@ -133,7 +133,7 @@ local function executeScript()
 end
 
 TextButton.MouseButton1Click:Connect(function()
-    if TextBox.Text == "卡卡大帝" then
+    if TextBox.Text == "kakanb" then
         Message.Text = "验证成功，正在加载脚本..."
         Message.TextColor3 = Color3.fromRGB(0, 255, 0)
         wait(1)
