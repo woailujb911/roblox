@@ -447,53 +447,15 @@ InkGameTab:AddButton({
     end
 })
 
-
-local InkGameTab = Window:MakeTab({
-    Name = "墨水游戏",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
 InkGameTab:AddButton({
-    Name = "脚本一",
+    Name = "生存99夜",
     Callback = function()
         local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/XOTRXONY/INKGAME/main/INKGAMEE.lua", true))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/gycgchgyfytdttr/shenqin/refs/heads/main/99day.lua", true))()
         end)
         if not success then
-            warn("墨水游戏脚本加载失败: ".. (err or "未知错误"))
+            warn("脚本加载失败: ".. (err or "未知错误"))
         end
-    end
-})
-
-local WestboundTab = Window:MakeTab({
-    Name = "一路向西",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-WestboundTab:AddButton({
-    Name = "脚本一",
-    Callback = function()
-        local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/fcsdsss/westboundscp/refs/heads/main/simpleToDoMobile.lua"))()
-        end)
-        if not success then
-            warn("一路向西脚本一加载失败: ".. (err or "未知错误"))
-        end
-    end
-})
-
-local DeadRailTab = Window:MakeTab({
-    Name = "死铁轨",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
-
-DeadRailTab:AddButton({
-    Name = "脚本一",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/m00ndiety/OP-AUTO-BONDS-V3/refs/heads/main/Keyless-BONDS-v3"))()
     end
 })
 
