@@ -459,6 +459,31 @@ InkGameTab:AddButton({
     end
 })
 
+InkGameTab:AddButton({
+    Name = "穷小子打工日记",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/gycgchgyfytdttr/QQ-9-2-8-9-50173/refs/heads/main/newsqnb.lua", true))()
+        end)
+        if not success then
+            warn("脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
+InkGameTab:AddButton({
+    Name = "死铁轨",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/wefwef127382/DEADRAILS.github.io/refs/heads/main/mainringta.lua", true))()
+        end)
+        if not success then
+            warn("脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
+
 local PoliceVsKillerTab = Window:MakeTab({
     Name = "警察vs凶手",
     Icon = "rbxassetid://4483345998",
