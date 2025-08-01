@@ -496,6 +496,18 @@ InkGameTab:AddButton({
     end
 })
 
+InkGameTab:AddButton({
+    Name = "Doors",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/XiaoYunCN/EntitySpawner/main/doors(orionlib).lua", true))()
+        end)
+        if not success then
+            warn("脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
 
 local PoliceVsKillerTab = Window:MakeTab({
     Name = "警察vs凶手",
