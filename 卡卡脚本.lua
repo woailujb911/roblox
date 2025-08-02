@@ -355,7 +355,7 @@ InkGameTab:AddButton({
     Name = "IY",
     Callback = function()
         local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source(ZH-CN).lua", true))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Wangzhehao8/fly-away/main/%E6%8C%87%E6%BB%8A%E6%B8%AD%E6%96%87.txt", true))()
         end)
         if not success then
             warn("IY脚本加载失败: ".. (err or "未知错误"))
