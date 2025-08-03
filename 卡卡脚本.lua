@@ -508,6 +508,19 @@ InkGameTab:AddButton({
     end
 })
 
+InkGameTab:AddButton({
+    Name = "造船寻宝",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/woailujb911/roblox/refs/heads/main/%E9%80%A0%E8%88%B9%E5%AF%BB%E5%AE%9D.lua", true))()
+        end)
+        if not success then
+            warn("脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
+
 
 local PoliceVsKillerTab = Window:MakeTab({
     Name = "警察vs凶手",
