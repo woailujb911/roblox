@@ -440,7 +440,7 @@ InkGameTab:AddButton({
     Name = "墨水游戏",
     Callback = function()
         local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Xingtaiduan/Script/refs/heads/main/Games/墨水游戏.lua", true))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Syndromehsh/BETA2/refs/heads/main/NOL", true))()
         end)
         if not success then
             warn("脚本加载失败: ".. (err or "未知错误"))
