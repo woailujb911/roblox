@@ -544,6 +544,18 @@ InkGameTab:AddButton({
     end
 })
 
+InkGameTab:AddButton({
+    Name = "为了1000000000000美元跳绳",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://rawscripts.net/raw/The-dollar1000000-Jump-Rope-Keyless-Slap-All-Slap-Aura-Free-Gamepass-add-remove-money-47134", true))()
+        end)
+        if not success then
+            warn("脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
 
 
 local PoliceVsKillerTab = Window:MakeTab({
