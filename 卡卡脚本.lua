@@ -532,6 +532,20 @@ InkGameTab:AddButton({
     end
 })
 
+InkGameTab:AddButton({
+    Name = "进击的巨人",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/705e7fe7aa288f0fe86900cedb1119b1.lua", true))()
+        end)
+        if not success then
+            warn("脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
+
+
 local PoliceVsKillerTab = Window:MakeTab({
     Name = "警察vs凶手",
     Icon = "rbxassetid://4483345998",
