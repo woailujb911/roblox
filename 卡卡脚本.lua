@@ -655,7 +655,7 @@ PoliceVsKillerTab:AddButton({
 })
 
 -- ESP开关
-PoliceVsKillerTab:AddButton({
+PoliceVsKillerTab:AddToggle({
     Name = "开启/关闭 ESP",
     Default = true,
     Callback = function(enabled)
