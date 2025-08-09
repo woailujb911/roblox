@@ -13,7 +13,7 @@ pcall(function()
         Title = "卡卡脚本",
         Text = "欢迎使用，功能已就序",
         Duration = 4,
-        Icon = "rbxassetid://118894209472715"
+        Icon = "rbxassetid://117383430326696"
     })
 end)
 
@@ -370,7 +370,7 @@ local InkGameTab = Window:MakeTab({
 })
 
 InkGameTab:AddButton({
-    Name = "汉化脚本",
+    Name = "WTB脚本",
     Callback = function()
         local success, err = pcall(function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/S-WTB/-/refs/heads/main/ISIS加载器", true))()
@@ -382,13 +382,13 @@ InkGameTab:AddButton({
 })
 
 InkGameTab:AddButton({
-    Name = "溺凌脚本",
+    Name = "霖溺脚本",
     Callback = function()
         local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/ShenJiaoBen/ScriptLoader/refs/heads/main/Linni_FreeLoader.lua(ZH-CN).lua", true))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/ShenJiaoBen/ScriptLoader/refs/heads/main/Linni_FreeLoader.lua", true))()
         end)
         if not success then
-            warn("溺凌脚本加载失败: ".. (err or "未知错误"))
+            warn("霖溺脚本加载失败: ".. (err or "未知错误"))
         end
     end
 })
@@ -409,7 +409,7 @@ InkGameTab:AddButton({
     Name = "安脚本",
     Callback = function()
         local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Anscripterato/QQ2134702438/refs/heads/main/byato/AnScript/atoscript", true))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/wucan114514/gegeyxjb/main/oww", true))()
         end)
         if not success then
             warn("安脚本加载失败: ".. (err or "未知错误"))
@@ -417,6 +417,29 @@ InkGameTab:AddButton({
     end
 })
 
+InkGameTab:AddButton({
+    Name = "AlienX脚本",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/woailujb911/-/refs/heads/main/%E5%A4%96%E6%98%9F%E4%BA%BA.lua", true))()
+        end)
+        if not success then
+            warn("AlienX脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
+
+InkGameTab:AddButton({
+    Name = "北极星脚本",
+    Callback = function()
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/zilinskaslandon/-/refs/heads/main/%3DBJX%E8%84%9A%E6%9C%AC%E4%B8%AD%E5%BF%83%E4%BA%8C%E6%AD%A5%E9%AA%A4%3D.lua", true))()
+        end)
+        if not success then
+            warn("北极星脚本加载失败: ".. (err or "未知错误"))
+        end
+    end
+})
 
 local InkGameTab = Window:MakeTab({
     Name = "-脚本区-",
@@ -632,7 +655,7 @@ PoliceVsKillerTab:AddButton({
 })
 
 -- ESP开关
-PoliceVsKillerTab:AddToggle({
+PoliceVsKillerTab:AddButton({
     Name = "开启/关闭 ESP",
     Default = true,
     Callback = function(enabled)
