@@ -373,7 +373,7 @@ InkGameTab:AddButton({
     Name = "WTB脚本",
     Callback = function()
         local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/S-WTB/-/refs/heads/main/ISIS加载器", true))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/S-WTB/-/refs/heads/main/WTB加载器", true))()
         end)
         if not success then
             warn("汉化脚本加载失败: ".. (err or "未知错误"))
